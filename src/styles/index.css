@@ -1,1 +1,122 @@
 @import "tailwindcss";
+
+@theme {
+    /* Colors */
+    --color-woody-wine: #4C2C2C;
+    --color-golden-sand: #E8B287;
+    --color-greige: #AE9890;
+    --color-tulip: #A888A0;
+    --color-white: #FFF3EE;
+
+    /* Height */
+    --spacing-nav-height: 115px;
+    --spacing-footer-height: 200px;
+    --spacing-wrapper: 95px;
+    --spacing-hero: 500px;
+    --spacing-hero-mobile: 300px;
+    --spacing-highlights: 675px;
+    --spacing-highlights-mobile: 400px;
+
+    /* Icons */
+    --spacing-icon-size: 50px;
+    --spacing-icon-size-mobile: 30px;
+
+    /* Custom paragraph sizes */
+    --text-big-p: 22px;
+    --text-medium-p: 20px;
+    --text-small-p: 16px;
+  }
+
+  @font-face {
+    src: "url('src\fonts\Auralyess.ttf') format('truetype')";
+    font-family: Auralyess;
+  }
+
+  @font-face {
+    src: "url('src\fonts\PoiretOne-Regular.ttf') format('truetype')";
+    font-family: PoiretOne;
+  }
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Auralyess;
+}
+
+p, li {
+    font-family: PoiretOne;
+}
+
+h1 {
+    font-size: 64px;
+}
+
+h2 {
+    font-size: 48px;
+}
+
+h3 {
+    font-size: 28px;
+}
+
+h5 {
+    font-size: 22px;
+}
+
+.primary-button-light {
+    font-family: Auralyess;
+    font-size: 22px;
+    color: var(--color-woody-wine);
+    background-color: var(--color-greige);
+    padding: 3px 18px;
+    border: 2px solid var(--color-greige);
+    cursor: pointer;
+}
+
+.primary-button-light:hover {
+    box-shadow: 0px 0px 10px var(--color-woody-wine), 0px 0px 20px var(--color-woody-wine), 0px 0px 30px var(--color-woody-wine);
+}
+
+.primary-button-dark {
+    font-family: Auralyess;
+    font-size: 22px;
+    color: var(--color-white);
+    background-color: var(--color-woody-wine);
+    padding: 3px 18px;
+    border: 2px solid var(--color-woody-wine);
+    cursor: pointer;
+}
+
+.primary-button-dark:hover {
+    box-shadow: 0px 0px 10px var(--color-woody-wine), 0px 0px 20px var(--color-woody-wine), 0px 0px 30px var(--color-woody-wine);
+}
+
+.secondary-button-light {
+    font-family: Auralyess;
+    font-size: 22px;
+    color: var(--color-greige);
+    padding: 3px 18px;
+    border: 2px solid var(--color-greige);
+    cursor: pointer;
+}
+
+.secondary-button-light:hover {
+    box-shadow: 0px 0px 10px var(--color-woody-wine), 0px 0px 20px var(--color-woody-wine), 0px 0px 30px var(--color-woody-wine);
+}
+
+.secondary-button-dark {
+    font-family: Auralyess;
+    font-size: 22px;
+    color: var(--color-woody-wine);
+    padding: 3px 18px;
+    border: 2px solid var(--color-woody-wine);
+    cursor: pointer;
+}
+
+.secondary-button-dark:hover {
+    box-shadow: 0px 0px 10px var(--color-woody-wine), 0px 0px 20px var(--color-woody-wine), 0px 0px 30px var(--color-woody-wine);
+}
+
+/* Overrides Tailwind default value */
+
+img {
+    max-width: none;
+}

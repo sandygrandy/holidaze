@@ -1,7 +1,9 @@
 import "./styles/index.css";
 import { Routes, Route } from "react-router-dom";
 // import all pages and neccessary components
-import HomePage from "./pages/homepage";
+import Navigation from "./components/navigation";
+import Footer from "./components/footer";
+import HomePage from "./pages/homePage";
 import VenuePage from "./pages/venuePage";
 import LoginPage from "./pages/loginPage";
 import RegisterPage from "./pages/registerPage";
@@ -11,6 +13,8 @@ import ProfilePage from "./pages/profilePage";
 
 function App() {
   return (
+  <>
+    <Navigation />
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/venue/:id" element={<VenuePage />} />
@@ -20,6 +24,8 @@ function App() {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/profile" element={<ProfilePage />} />
     </Routes>
+    <Footer />
+  </>
   );
 }
 
