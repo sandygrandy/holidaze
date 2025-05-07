@@ -1,4 +1,22 @@
+import React, { useEffect, useState } from "react";
+import { fetchVenues } from "../api/venuesApi";
+import Carousel, { CarouselImage } from "../components/carousel";
+
 function HomePage() {
+  const [carouselImages, setCarouselImages] = useState<CarouselImage[]>([]);
+
+  useEffect(() => {
+    fetchVenues().then((response) => {
+      const images = response.data.filter((_, index) => index <= 5).map((venue) => (
+        {
+          url: venue.media[0].url,
+          title: venue.name,
+        }
+      ));
+      setCarouselImages(images);
+    });
+  }, []);
+
   return (
     <div>
       <section className="h-hero bg-[url('/src\images\hero-bg.png')] px-wrapper flex items-center text-white bg-cover bg-center bg-no-repeat">
@@ -16,22 +34,43 @@ function HomePage() {
 
       <section className="h-highlights bg-white px-wrapper flex flex-col pt-[50px]">
         <h2>Highlights</h2>
-        <div className="flex flex-row gap-6 justify-between items-center m-auto">
-          <img
-            src="/src/icons/left-arrow.png"
-            alt="Arrow left"
-            className="h-icon-size"
-          />
-          <img src="#" alt="Product image" className="h-[400px] w-[400px]" />
-          <img src="#" alt="Product image" className="h-[400px] w-[400px]" />
-          <img src="#" alt="Product image" className="h-[400px] w-[400px]" />
-          <img
-            src="/src/icons/right-arrow.png"
-            alt="Arrow right"
-            className="h-icon-size"
-          />
-        </div>
+        {/* <Carousel
+          images={[
+            {
+              image: "https://placehold.co/600x400/orange/white",
+              title: "Orange card",
+            },
+            {
+              image: "https://placehold.co/600x400/blue/white",
+              title: "Blue card",
+            },
+            {
+              image: "https://placehold.co/600x400/green/white",
+              title: "Green card",
+            },
+            {
+              image: "https://placehold.co/600x400/pink/white",
+              title: "Pink card",
+            },
+            {
+              image: "https://placehold.co/600x400/yellow/white",
+              title: "Yellow card",
+            },
+            {
+              image: "https://placehold.co/600x400/red/white",
+              title: "Red card",
+            },
+          ]}
+        /> */}
+         <Carousel
+          images={carouselImages}
+        />
       </section>
+
+      <br/>
+      <br/>
+      <br/>
+      <br/>
 
       <section className="px-wrapper flex flex-row mt-[90px] mb-[90px] gap-20 text-woody-wine">
         <div className="">
@@ -81,7 +120,11 @@ function HomePage() {
       </section>
 
       <section>
-      <img src="/src/images/home-bottom.png" alt="Flower arrangement" className="bg-cover w-full"/>
+        <img
+          src="/src/images/home-bottom.png"
+          alt="Flower arrangement"
+          className="bg-cover w-full"
+        />
       </section>
     </div>
   );
