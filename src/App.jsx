@@ -1,4 +1,5 @@
 import "./styles/index.css";
+import { AuthProvider } from "./contexts/authContext";
 import { Routes, Route } from "react-router-dom";
 import Navigation from "./components/navigation";
 import Footer from "./components/footer";
@@ -12,19 +13,21 @@ import ProfilePage from "./pages/profilePage";
 
 function App() {
   return (
-  <>
-    <Navigation />
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/venues" element={<VenuesPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/book/:id" element={<BookingPage />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/profile" element={<ProfilePage />} />
-    </Routes>
-    <Footer />
-  </>
+    <>
+      <AuthProvider>
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/venues" element={<VenuesPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/book/:id" element={<BookingPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<ProfilePage />} />
+        </Routes>
+        <Footer />
+      </AuthProvider>
+    </>
   );
 }
 

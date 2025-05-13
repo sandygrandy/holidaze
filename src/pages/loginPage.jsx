@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useAuth } from "../contexts/authContext";
 
-function loginPage() {
+function LoginPage() {
 
-  async function handleLogin(event) {
+  const { login } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (event) => {
     event.preventDefault();
-
-    const email = event.target.elements[0].value;
-    const password = event.target.elements[1].value;
 
     try {
       const response = await fetch("https://v2.api.noroff.dev/auth/login", {
@@ -22,7 +25,7 @@ function loginPage() {
       }
 
       const data = await response.json();
-      localStorage.setItem("user", JSON.stringify(data));
+      login(data);
       alert("Login successful!");
       window.location.href = "/";
     } catch (error) {
@@ -31,8 +34,9 @@ function loginPage() {
     }
   }
 
+
   return (
-    <div className="bg-[url('../images/background-flowers.png')] bg-cover bg-center h-[80vh] flex items-center justify-center">
+    <div className="bg-[url('/images/background-flowers.png')] bg-cover bg-center h-[80vh] flex items-center justify-center">
       <div className="bg-white w-[630px] h-[650px] shadow-lg items-center justify-center flex flex-col">
         <h2>Log in</h2>
         <form className="flex flex-col gap-4 mt-4" onSubmit={handleLogin}>
@@ -40,6 +44,8 @@ function loginPage() {
           <input
             type="text"
             id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             className="border border-gray-300 p-2 rounded"
           />
@@ -47,6 +53,8 @@ function loginPage() {
           <input
             type="password"
             id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             className="border border-gray-300 p-2 rounded"
           />
@@ -62,4 +70,4 @@ function loginPage() {
     </div>
   );
 }
-export default loginPage;
+export default LoginPage;
