@@ -45,6 +45,21 @@ p, li {
     font-family: PoiretOne;
 }
 
+a {
+    color: var(--color-woody-wine);
+    text-decoration: none;
+}
+
+a:hover {
+    color: #6b4f4f;
+    text-decoration: underline;
+}
+
+label {
+    font-family: poiretOne;
+    font-size: var(--text-small-p);
+}
+
 h1 {
     font-size: 64px;
 }

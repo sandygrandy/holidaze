@@ -9,13 +9,13 @@ function Footer() {
       <div>
         <h5 className="text-woody-wine">Help</h5>
         <ul>
-          <li className="underline">
+          <li>
             <Link to="/">FAQ</Link>
           </li>
-          <li className="underline">
+          <li>
             <Link to="/">Cookie policy</Link>
           </li>
-          <li className="underline">
+          <li>
             <Link to="/">Privacy policy</Link>
           </li>
         </ul>
@@ -23,10 +23,10 @@ function Footer() {
       <div>
         <h5 className="text-woody-wine">About</h5>
         <ul>
-          <li className="underline">
+          <li>
             <Link to="/">About us</Link>
           </li>
-          <li className="underline">
+          <li>
             <Link to="/">Contact us</Link>
           </li>
         </ul>
@@ -34,13 +34,13 @@ function Footer() {
       <div>
         <h5 className="text-woody-wine">Socials</h5>
         <ul>
-          <li className="underline">
+          <li>
             <Link to="/">Instagram</Link>
           </li>
-          <li className="underline">
+          <li>
             <Link to="/">Facebook</Link>
           </li>
-          <li className="underline">
+          <li>
             <Link to="/">Linkedin</Link>
           </li>
         </ul>
