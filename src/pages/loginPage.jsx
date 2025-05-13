@@ -26,7 +26,6 @@ function LoginPage() {
 
       const data = await response.json();
       login(data);
-      alert("Login successful!");
       window.location.href = "/";
     } catch (error) {
       console.error(error);

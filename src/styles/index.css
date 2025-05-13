@@ -130,6 +130,12 @@ h5 {
     box-shadow: 0px 0px 10px var(--color-woody-wine), 0px 0px 20px var(--color-woody-wine), 0px 0px 30px var(--color-woody-wine);
 }
 
+.logout-btn button:hover {
+    text-decoration: underline;
+    color: #6b4f4f;
+    
+}
+
 /* Overrides Tailwind default value */
 
 img {

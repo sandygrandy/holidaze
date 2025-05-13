@@ -57,7 +57,7 @@ function Navigation() {
           {/* User view */}
 
           {isLoggedIn && (
-          <li className="m-6 text-woody-wine text-medium-p">
+          <li className="m-6 text-woody-wine text-medium-p logout-btn">
             <button onClick={handleLogout}>Log out</button>
           </li>
           )}

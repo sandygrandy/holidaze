@@ -1,4 +1,5 @@
 import "./styles/index.css";
+import ProtectedRoute from "./helpers/protectedRoute";
 import { AuthProvider } from "./contexts/authContext";
 import { Routes, Route } from "react-router-dom";
 import Navigation from "./components/navigation";
@@ -22,8 +23,22 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/book/:id" element={<BookingPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute role="manager">
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute role="user">
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
         <Footer />
       </AuthProvider>
