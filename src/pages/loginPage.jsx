@@ -12,7 +12,7 @@ function LoginPage() {
     event.preventDefault();
 
     try {
-      const response = await fetch("https://v2.api.noroff.dev/auth/login", {
+      const response = await fetch("https://v2.api.noroff.dev/auth/login?_holidaze=true", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,8 +24,8 @@ function LoginPage() {
         throw new Error("Login failed");
       }
 
-      const data = await response.json();
-      login(data);
+      const responseBody = await response.json();
+      login(responseBody.data);
       window.location.href = "/";
     } catch (error) {
       console.error(error);

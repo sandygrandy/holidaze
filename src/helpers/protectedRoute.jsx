@@ -3,7 +3,11 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 
 function ProtectedRoute({ children, role }) {
-    const { isLoggedIn, isManager } = useAuth();
+    const { isLoggedIn, isManager, isLoading } = useAuth();
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
     
     if (!isLoggedIn) {
         alert("You need to be logged in to access this page.");
@@ -15,6 +19,7 @@ function ProtectedRoute({ children, role }) {
         return <Navigate to="/" />;
     }
     
+
     return children;
     }
 

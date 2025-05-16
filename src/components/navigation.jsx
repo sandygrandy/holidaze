@@ -33,46 +33,44 @@ function Navigation() {
         <img src="src\logo\Veloura.png" alt="Veloura Logo"></img>
       </div>
       <div>
-        <ul className="flex items-center justify-center flex-row ">
+        <ul className="flex items-center justify-center flex-row">
           <li className="m-6 text-woody-wine text-medium-p">
             <Link to="/">Home</Link>
           </li>
           <li className="m-6 text-woody-wine text-medium-p">
             <Link to="/venues">Venues</Link>
           </li>
-          <li className="m-6 text-woody-wine text-medium-p">
-            <Link to="/about">About us</Link>
-          </li>
-          <li className="m-6 text-woody-wine text-medium-p">
-            <Link to="/contact">Contact us</Link>
-          </li>
 
-          {/* Visitor view */}
           {!isLoggedIn && (
             <li className="m-6 text-woody-wine text-medium-p">
-            <Link to="/login">Login</Link>
-          </li>
+              <Link to="/login">Login</Link>
+            </li>
           )}
 
-          {/* User view */}
-
-          {isLoggedIn && (
-          <li className="m-6 text-woody-wine text-medium-p logout-btn">
-            <button onClick={handleLogout}>Log out</button>
-          </li>
-          )}
-
-          {/* Manager view */}
           {isManager && (
-          <li className="m-6 text-woody-wine hidden">
-          <Link to="/dashboard">Dashboard</Link>
-        </li>
+            <li className="m-6 text-woody-wine text-medium-p">
+              <Link to="/dashboard">Dashboard</Link>
+            </li>
           )}
-          {/* User and manager view */}
+
           {isLoggedIn && (
-          <li className="m-6 text-woody-wine hidden">
-            <Link to="/profile">Profile</Link>
-          </li>
+            <li className="m-6 text-woody-wine text-medium-p relative group">
+              <Link to="/profile">Profile</Link>
+              <ul className="absolute hidden group-hover:flex flex-col bg-white shadow-md rounded-md w-40 z-50">
+                <li className="px-4 py-2 hover:bg-gray-100 rounded-md">
+                  <Link to="/settings">Settings</Link>
+                </li>
+                <li className="px-4 py-2 hover:bg-gray-100 rounded-md">
+                  <Link to="/bookings">My Bookings</Link>
+                </li>
+              </ul>
+            </li>
+          )}
+
+          {isLoggedIn && (
+            <li className="m-6 text-woody-wine text-medium-p logout-btn">
+              <button onClick={handleLogout}>Log out</button>
+            </li>
           )}
         </ul>
       </div>

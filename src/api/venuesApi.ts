@@ -3,6 +3,7 @@ import { ApiResponse } from "./apiResonse";
 const PROFILES_BASE_URL = "https://v2.api.noroff.dev/holidaze/profiles";
 const VENUES_BASE_URL = "https://v2.api.noroff.dev/holidaze/venues";
 
+
 export interface Venue {
     id: string;
     name: string;

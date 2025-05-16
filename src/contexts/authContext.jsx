@@ -11,16 +11,20 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isManager, setIsManager] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     
     useEffect(() => {
         const userData = localStorage.getItem("user");
+    
         if (userData) {
-        setUser(JSON.parse(userData));
-        setIsLoggedIn(true);
-        if (JSON.parse(userData).venueManager === true) {
-            setIsManager(true);
+            const parsedUser = JSON.parse(userData);
+            setUser(parsedUser);
+            setIsLoggedIn(true);
+            if (parsedUser.venueManager === true) {
+                setIsManager(true);
+            }
         }
-        }
+        setIsLoading(false);
     }, []);
     
     const login = (userData) => {
@@ -40,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     };
     
     return (
-        <AuthContext.Provider value={{ user, isLoggedIn, isManager, login, logout }}>
+        <AuthContext.Provider value={{ user, isLoggedIn, isManager, isLoading, login, logout }}>
         {children}
         </AuthContext.Provider>
     );
