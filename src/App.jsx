@@ -11,6 +11,7 @@ import RegisterPage from "./pages/registerPage";
 import BookingPage from "./pages/bookingPage";
 import Dashboard from "./pages/dashboard";
 import ProfilePage from "./pages/profilePage";
+import CreateVenue from "./pages/createVenuePage";
 
 function App() {
   return (
@@ -28,6 +29,14 @@ function App() {
             element={
               <ProtectedRoute role="manager">
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/createVenue"
+            element={
+              <ProtectedRoute role="manager">
+                <CreateVenue />
               </ProtectedRoute>
             }
           />

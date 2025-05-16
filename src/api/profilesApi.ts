@@ -1,6 +1,7 @@
-import { ApiResponse } from "./apiResonse";
+import { ApiResponse } from "./ApiResponse";
 import { API_KEY } from "./API_KEY.mjs";
 import { cleanDataContext } from "../contexts/cleanData.tsx";
+import { Booking } from "./bookingsApi.ts";
 
 const PROFILES_BASE_URL = "https://v2.api.noroff.dev/holidaze/profiles";
 
@@ -24,7 +25,7 @@ export interface StoredUserProfile {
     accessToken: string;
 };
 
-export const fetchUserProfileLoggedIn = async (): Promise<UserProfile | null> => {
+export const fetchUserProfileLoggedIn = async (): Promise<ApiResponse<UserProfile> | null> => {
     const stored = localStorage.getItem("user");
     if (!stored) return null;
   
@@ -39,11 +40,11 @@ export const fetchUserProfileLoggedIn = async (): Promise<UserProfile | null> =>
       });
   
       const result = await response.json();
-      const cleanedData = cleanDataContext(result.data);
-      return cleanedData as UserProfile;
+      result.data = cleanDataContext(result.data);
+      return result as ApiResponse<UserProfile>;
     } catch (error) {
       console.error("Error fetching profile:", error);
-      return null;
+      throw error;
     }
   };
 
@@ -68,22 +69,9 @@ export const getLoggedInUser = (): UserProfile | null => {
         return JSON.parse(userJson) as UserProfile;
     } catch (error) {
         console.error("Error parsing user from localStorage:", error);
-        return null;
-    }
-};
-
-export const fetchBookingsByProfile = async (name: string): Promise<ApiResponse<any[]>> => {
-    try {
-        const response = await fetch(`${PROFILES_BASE_URL}/${name}/bookings`);
-        if (!response.ok) {
-            throw new Error(`Error fetching bookings for profile ${name}`);
-        }
-        return await response.json();
-    } catch (error) {
-        console.error(`Error fetching bookings for profile ${name}:`, error);
         throw error;
     }
-}
+};
 
 export const fetchVenuesByProfile = async (name: string): Promise<ApiResponse<any[]>> => {
     try {

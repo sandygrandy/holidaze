@@ -1,4 +1,4 @@
-import { ApiResponse } from "./apiResonse";
+import { ApiResponse } from "./ApiResponse";
 
 const PROFILES_BASE_URL = "https://v2.api.noroff.dev/holidaze/profiles";
 const VENUES_BASE_URL = "https://v2.api.noroff.dev/holidaze/venues";
@@ -8,23 +8,23 @@ export interface Venue {
     id: string;
     name: string;
     description: string;
-    location: {
+    location?: {
         address: string;
         city: string;
         country: string;
     };
-    price: number;
-    maxGuests: number;
+    price?: number;
+    maxGuests?: number;
     media: {
         url: string;
         alt: string;
     };
-    rating: number;
+    rating?: number;
 }
 
 export const fetchVenues = async (): Promise<ApiResponse<Venue[]>> => {
     try {
-        const response = await fetch(VENUES_BASE_URL);
+        const response = await fetch(`${VENUES_BASE_URL}?sort=created&sortOrder=desc&_owner=true&_bookings=true`);
         if (!response.ok) {
             throw new Error("Error fetching venues");
         }
