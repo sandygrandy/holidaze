@@ -12,6 +12,7 @@ import BookingPage from "./pages/bookingPage";
 import Dashboard from "./pages/dashboard";
 import ProfilePage from "./pages/profilePage";
 import CreateVenue from "./pages/createVenuePage";
+import ManagerVenuesView from "./pages/managerVenuesView";
 
 function App() {
   return (
@@ -37,6 +38,14 @@ function App() {
             element={
               <ProtectedRoute role="manager">
                 <CreateVenue />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/managerVenuesView"
+            element={
+              <ProtectedRoute role="manager">
+                <ManagerVenuesView />
               </ProtectedRoute>
             }
           />

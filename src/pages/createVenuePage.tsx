@@ -27,8 +27,6 @@ function CreateVenue() {
       zip: "",
       country: "",
       continent: "",
-      lat: 0,
-      lng: 0,
     },
   });
 
@@ -119,8 +117,6 @@ function CreateVenue() {
           zip: "",
           country: "",
           continent: "",
-          lat: 0,
-          lng: 0,
         },
       });
     } catch (err: any) {
