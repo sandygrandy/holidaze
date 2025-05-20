@@ -1,7 +1,9 @@
 import { ApiResponse } from "./ApiResponse";
 import { API_KEY } from "./API_KEY.mjs";
 import { cleanDataContext } from "../contexts/cleanData.tsx";
-import { Booking } from "./bookingsApi.ts";
+import { Venue } from "./venuesApi";
+import getUserData from "../helpers/getUserData.tsx";
+import { StoredUserProfile } from "../helpers/getUserData.tsx";
 
 const PROFILES_BASE_URL = "https://v2.api.noroff.dev/holidaze/profiles";
 
@@ -20,17 +22,9 @@ export interface UserProfile {
     venuemanager?: boolean;
 };
 
-export interface StoredUserProfile {
-    name: string;
-    accessToken: string;
-};
+const user = getUserData();
 
-export const fetchUserProfileLoggedIn = async (): Promise<ApiResponse<UserProfile> | null> => {
-    const stored = localStorage.getItem("user");
-    if (!stored) return null;
-  
-    const user = JSON.parse(stored);
-  
+export const fetchUserProfileLoggedIn = async (storedUser: StoredUserProfile): Promise<ApiResponse<UserProfile> | null> => {
     try {
       const response = await fetch(`https://v2.api.noroff.dev/holidaze/profiles/${user.name}`, {
         headers: {
@@ -62,18 +56,7 @@ export const fetchProfiles = async (): Promise<ApiResponse<UserProfile[]>> => {
     }
 };
 
-export const getLoggedInUser = (): UserProfile | null => {
-    const userJson = localStorage.getItem("user");
-    if (!userJson) return null;
-    try {
-        return JSON.parse(userJson) as UserProfile;
-    } catch (error) {
-        console.error("Error parsing user from localStorage:", error);
-        throw error;
-    }
-};
-
-export const fetchVenuesByProfile = async (name: string): Promise<ApiResponse<any[]>> => {
+export const fetchVenuesByProfile = async (name: string): Promise<ApiResponse<Venue[]>> => {
     try {
         const response = await fetch(`${PROFILES_BASE_URL}/${name}/venues`);
         if (!response.ok) {
@@ -86,16 +69,7 @@ export const fetchVenuesByProfile = async (name: string): Promise<ApiResponse<an
     }
 };
 
-export const updateProfile = async (
-    name: string,
-    profile: {
-        bio?: string;
-        venuemanager?: boolean;
-        banner?: { url: string; alt: string };
-        avatar?: { url: string; alt: string };
-    },
-    token: string
-): Promise<ApiResponse<UserProfile>> => {
+export const updateProfile = async (name: string, profile: UserProfile, token: string): Promise<ApiResponse<UserProfile>> => {
     try {
         const response = await fetch(`${PROFILES_BASE_URL}/${name}`, {
             method: "PUT",
@@ -114,19 +88,6 @@ export const updateProfile = async (
         throw error;
     }
 };
-
-export const searchProfiles = async (query: string): Promise<ApiResponse<UserProfile[]>> => {
-    try {
-        const response = await fetch(`${PROFILES_BASE_URL}?search=${query}`);
-        if (!response.ok) {
-            throw new Error("Error searching profiles");
-        }
-        return await response.json();
-    } catch (error) {
-        console.error("Error searching profiles:", error);
-        throw error;
-    }
-}
 
 
 

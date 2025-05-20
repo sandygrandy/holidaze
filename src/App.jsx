@@ -13,6 +13,7 @@ import Dashboard from "./pages/dashboard";
 import ProfilePage from "./pages/profilePage";
 import CreateVenue from "./pages/createVenuePage";
 import ManagerVenuesView from "./pages/managerVenuesView";
+import EditVenue from "./pages/editVenuePage";
 
 function App() {
   return (
@@ -46,6 +47,14 @@ function App() {
             element={
               <ProtectedRoute role="manager">
                 <ManagerVenuesView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/editVenue/:id"
+            element={
+              <ProtectedRoute role="manager">
+                <EditVenue />
               </ProtectedRoute>
             }
           />
