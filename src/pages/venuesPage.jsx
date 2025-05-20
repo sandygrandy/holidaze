@@ -1,6 +1,26 @@
-import VenueCard from "../components/venueCard.jsx";
+import React, { useEffect, useState } from "react";
+import { VenueCard } from "../components/venueCard";
 
 function VenuesPage() {
+  const [venues, setVenues] = useState([]);
+
+  useEffect(() => {
+    const fetchVenues = async () => {
+      try {
+        const response = await fetch(
+          "https://v2.api.noroff.dev/holidaze/venues?sort=created&sortOrder=desc"
+        );
+        const data = await response.json();
+        setVenues(data.data);
+      } catch (err) {
+        setError("Failed to fetch venues.");
+        console.error(err);
+      }
+    };
+
+    fetchVenues();
+  }, []);
+
   return (
     <div className="px-wrapper pb-wrapper">
       <div className="venues-search-bar flex flex-row items-center justify-between">
@@ -19,9 +39,9 @@ function VenuesPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-3">
         <div className="max-w-[375px]">
-          <div className="bg-white shadow-lg w-[375px] h-[600px] flex flex-col gap-4 p-4">
+          <div className="bg-white shadow-lg w-auto h-auto flex flex-col gap-4 p-4">
             <h5>Filter</h5>
             <div>
               <p>Price range</p>
@@ -101,9 +121,15 @@ function VenuesPage() {
             </div>
           </div>
         </div>
-
-        <VenueCard />
+      <div className="p-6 col-span-2">
+        <div className="flex flex-col gap-4">
+          {venues.map((venue) => (
+            <VenueCard key={venue.id} venue={venue} />
+          ))}
+        </div>
       </div>
+      </div>
+
     </div>
   );
 }
