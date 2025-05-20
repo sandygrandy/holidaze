@@ -30,7 +30,7 @@ function Navigation() {
   return (
     <div className="bg-greige w-full h-nav-height flex items-center px-wrapper flex-row justify-between">
       <div>
-        <img src="src\logo\Veloura.png" alt="Veloura Logo"></img>
+        <img src="../src/logo/Veloura.png" alt="Veloura Logo"></img>
       </div>
       <div>
         <ul className="flex items-center justify-center flex-row">
