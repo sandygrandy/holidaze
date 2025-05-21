@@ -34,34 +34,6 @@ function HomePage() {
 
       <section className="h-highlights bg-white px-wrapper flex flex-col pt-[50px]">
         <h2>Highlights</h2>
-        {/* <Carousel
-          images={[
-            {
-              image: "https://placehold.co/600x400/orange/white",
-              title: "Orange card",
-            },
-            {
-              image: "https://placehold.co/600x400/blue/white",
-              title: "Blue card",
-            },
-            {
-              image: "https://placehold.co/600x400/green/white",
-              title: "Green card",
-            },
-            {
-              image: "https://placehold.co/600x400/pink/white",
-              title: "Pink card",
-            },
-            {
-              image: "https://placehold.co/600x400/yellow/white",
-              title: "Yellow card",
-            },
-            {
-              image: "https://placehold.co/600x400/red/white",
-              title: "Red card",
-            },
-          ]}
-        /> */}
          <Carousel
           images={carouselImages}
         />

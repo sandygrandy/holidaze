@@ -3,7 +3,6 @@ import { VenueCard } from "../components/venueCard";
 import { Venue } from "../api/venuesApi";
 
 function VenuesPage() {
-
   const [venues, setVenues] = useState<Venue[]>([]);
   const [error, setError] = useState("");
 
@@ -34,7 +33,9 @@ function VenuesPage() {
   const filteredVenues = venues.filter(
     (venue) =>
       (venue.name?.toLowerCase() ?? "").includes(searchQuery.toLowerCase()) ||
-      (venue.location?.address?.toLowerCase() ?? "").includes(searchQuery.toLowerCase())
+      (venue.location?.address?.toLowerCase() ?? "").includes(
+        searchQuery.toLowerCase()
+      )
   );
 
   return (
@@ -137,15 +138,14 @@ function VenuesPage() {
           </div>
         </div>
 
-      <div className="p-6 col-span-2">
-        <div className="flex flex-col gap-4">
-          {filteredVenues.map((venue) => (
-            <VenueCard key={venue.id} venue={venue} />
-          ))}
+        <div className="p-6 col-span-2">
+          <div className="flex flex-col gap-4">
+            {filteredVenues.map((venue) => (
+              <VenueCard key={venue.id} venue={venue} />
+            ))}
+          </div>
         </div>
       </div>
-      </div>
-
     </div>
   );
 }

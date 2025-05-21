@@ -3,6 +3,7 @@ import { useState } from "react";
 import { API_KEY } from "../api/API_KEY.mjs";
 import getAccessToken from "../helpers/token";
 import { defaultVenueDetails } from "../helpers/venueDetails";
+import { toast } from "react-toastify";
 
 function CreateVenue() {
   const token = getAccessToken();

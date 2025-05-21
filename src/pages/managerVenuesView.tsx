@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { API_KEY } from "../api/API_KEY.mjs";
 import getAccessToken from "../helpers/token";
+import { toast } from "react-toastify";
 
 interface Venue {
   id: string;
@@ -75,7 +76,9 @@ function ManagerVenuesView() {
         {
           method: "DELETE",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
+            "X-Noroff-API-Key": API_KEY,
           },
         }
       );
@@ -84,6 +87,15 @@ function ManagerVenuesView() {
     } catch (err: any) {
       alert(err.message || "Delete failed");
     }
+    toast.success("Venue deleted successfully", {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   }
 
   if (!name) {
@@ -111,20 +123,20 @@ function ManagerVenuesView() {
         {venues.map((venue) => (
           <div
             key={venue.id}
-            className="bg-white rounded shadow p-4 flex flex-col"
-          >
+            className="bg-white rounded shadow p-4 flex flex-col">
             <img
               src={venue.media[0]?.url || "https://via.placeholder.com/400x200"}
               alt={venue.media[0]?.alt || venue.name}
-              className="w-full h-48 object-cover rounded mb-2"
-            />
-            <h2 className="text-woody-wine text-xl font-semibold mb-1">
+              className="w-full h-48 object-cover rounded mb-2"/>
+            <h3 className="text-woody-wine text-xl font-semibold mb-3">
               {venue.name}
-            </h2>
-            <p className="text-woody-wine mb-2 text-small-p">
+            </h3>
+            <div className="h-24 overflow-hidden">
+            <p className="text-woody-wine mb-2 text-small-p line-clamp-3">
               {venue.description}
             </p>
-            <div className="flex flex-wrap gap-2 mb-2">
+            </div>
+            <div className="flex flex-wrap gap-2 mb-3">
               <span className="text-small-p text-woody-wine">
                 Price: ${venue.price}
               </span>
@@ -132,10 +144,10 @@ function ManagerVenuesView() {
                 Guests: {venue.maxGuests}
               </span>
               <span className="text-small-p text-woody-wine">
-                Rating: {venue.rating}
+                Rating: {venue.rating} ⭐
               </span>
             </div>
-            <div className="flex flex-wrap gap-2 text-xs mb-2">
+            <div className="flex flex-wrap gap-2 text-xs mb-3">
               {venue.meta.wifi && (
                 <span className="bg-neutral-50 px-2 rounded">WiFi</span>
               )}
@@ -149,18 +161,18 @@ function ManagerVenuesView() {
                 <span className="bg-neutral-50 px-2 rounded">Pets</span>
               )}
             </div>
-            <div className="flex gap-2 mt-3 justify-evenly">
+            <div className="flex gap-2 mt-3">
               <button
                 onClick={() => {
                   location.href = `/editVenue/${venue.id}`;
                 }}
-                className="primary-button-dark"
+                className="primary-button-dark w-full"
               >
                 Edit
               </button>
               <button
                 onClick={() => handleDelete(venue.id)}
-                className="secondary-button-dark"
+                className="secondary-button-dark w-full"
               >
                 Delete
               </button>

@@ -14,6 +14,8 @@ import ProfilePage from "./pages/profilePage";
 import CreateVenue from "./pages/createVenuePage";
 import ManagerVenuesView from "./pages/managerVenuesView";
 import EditVenue from "./pages/editVenuePage";
+import SingleVenuePage from "./pages/singleVenuePage";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/venues" element={<VenuesPage />} />
+          <Route path="/venue/:id" element={<SingleVenuePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/book/:id" element={<BookingPage />} />
@@ -69,6 +72,7 @@ function App() {
         </Routes>
         <Footer />
       </AuthProvider>
+      <ToastContainer />
     </>
   );
 }

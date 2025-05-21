@@ -28,12 +28,12 @@
   }
 
   @font-face {
-    src: "url('src\fonts\Auralyess.ttf') format('truetype')";
+    src: url('/src/fonts/Auralyess.ttf') format('truetype');
     font-family: Auralyess;
   }
 
   @font-face {
-    src: "url('src\fonts\PoiretOne-Regular.ttf') format('truetype')";
+    src: url('/src/fonts/PoiretOne-Regular.ttf') format('truetype');
     font-family: PoiretOne;
   }
 
@@ -43,6 +43,7 @@ h1, h2, h3, h4, h5, h6 {
 
 p, li, span {
     font-family: PoiretOne;
+    font-weight: 600;
 }
 
 a {

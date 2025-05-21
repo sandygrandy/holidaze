@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { API_KEY } from "../api/API_KEY.mjs";
 import { defaultVenueDetails } from "../helpers/venueDetails";
 import getAccessToken from "../helpers/token";
+import { toast } from "react-toastify";
 
 function EditVenue() {
   let { id } = useParams();
@@ -71,10 +72,29 @@ function EditVenue() {
         }
       );
 
+      
       if (response.ok) {
-        navigate("/venues");
+        toast.success("Venue updated successfully!", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        navigate("/managerVenuesView");
       } else {
-        console.error("Failed to update venue");
+        console.error("Failed to update venue", response.statusText);
+        toast.error("Failed to update venue", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (error) {
       console.error("Error:", error);
@@ -327,7 +347,9 @@ function EditVenue() {
         </div>
       </fieldset>
       <div>
-        <button type="submit" className="w-full primary-button-dark py-2 px-4">
+        <button 
+        type="submit"
+        className="w-full primary-button-dark py-2 px-4">
           Save Changes
         </button>
       </div>

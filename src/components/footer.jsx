@@ -4,7 +4,7 @@ function Footer() {
   return (
     <div className="w-full h-footer-height bg-tulip flex items-center px-wrapper flex-row justify-between">
       <div>
-        <img src="src\logo\Veloura.png" alt="Veloura Logo"></img>
+        <img src="../src\logo\Veloura.png" alt="Veloura Logo"></img>
       </div>
       <div>
         <h5 className="text-woody-wine">Help</h5>
