@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { VenueCard } from "../components/venueCard";
+import { Venue } from "../api/venuesApi";
 
 function VenuesPage() {
-  const [venues, setVenues] = useState([]);
+
+  const [venues, setVenues] = useState<Venue[]>([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchVenues = async () => {
@@ -10,8 +13,13 @@ function VenuesPage() {
         const response = await fetch(
           "https://v2.api.noroff.dev/holidaze/venues?sort=created&sortOrder=desc"
         );
-        const data = await response.json();
-        setVenues(data.data);
+        const res = await response.json();
+        if (Array.isArray(res.data)) {
+          setVenues(res.data);
+        } else {
+          setError("Unexpected response format.");
+          console.error("An error occured:", res.data);
+        }
       } catch (err) {
         setError("Failed to fetch venues.");
         console.error(err);
@@ -21,62 +29,69 @@ function VenuesPage() {
     fetchVenues();
   }, []);
 
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredVenues = venues.filter(
+    (venue) =>
+      (venue.name?.toLowerCase() ?? "").includes(searchQuery.toLowerCase()) ||
+      (venue.location?.address?.toLowerCase() ?? "").includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="px-wrapper pb-wrapper">
       <div className="venues-search-bar flex flex-row items-center justify-between">
-        <div>
-          <h2>Venues</h2>
+        <div className="pl-">
+          <h1>Venues</h1>
         </div>
-        <div>
+        <div className="items-baseline-last">
           <input
             type="text"
             placeholder="Search..."
-            className="bg-gray-300 px-5 py-3 m-5 rounded shadow-md"
+            className="w-[300px]"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <button type="submit" className="primary-button-dark shadow-md">
-            Search
-          </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-3">
-        <div className="max-w-[375px]">
-          <div className="bg-white shadow-lg w-auto h-auto flex flex-col gap-4 p-4">
-            <h5>Filter</h5>
+      <div className="grid grid-cols-3 items-start">
+        <div className="max-w-[350px] min-w-[276px] sticky top-25">
+          <div className="bg-white shadow-lg flex flex-col gap-4 p-4">
+            <h3>Filter</h3>
             <div>
-              <p>Price range</p>
-              <div className="flex flex-row gap-4 pb-6">
+              <p className="text-medium-p">Price range</p>
+              <div className="flex flex-row gap-4 pb-6 items-center">
                 <p>Min</p>
                 <input
                   type="text"
                   placeholder="Min"
-                  className="bg-gray-200 w-[60px] rounded mr-5"
+                  className="w-15 h-8 rounded mr-5"
                 ></input>
                 <p>Max</p>
                 <input
                   type="text"
                   placeholder="Max"
-                  className="bg-gray-200 w-[60px] rounded"
+                  className="w-15 h-8 rounded"
                 ></input>
               </div>
               <div>
-                <p>Guest capacity</p>
-                <div className="flex flex-row gap-4 pb-6">
+                <p className="text-medium-p">Guest capacity</p>
+                <div className="flex flex-row gap-4 pb-6 items-center">
                   <p>Min</p>
                   <input
                     type="text"
                     placeholder="Min"
-                    className="bg-gray-200 w-[60px] rounded mr-5"
+                    className="w-15 h-8 rounded mr-5"
                   ></input>
                   <p>Max</p>
                   <input
                     type="text"
                     placeholder="Max"
-                    className="bg-gray-200 w-[60px] rounded"
+                    className="w-15 h-8 rounded"
                   ></input>
                 </div>
                 <div className="flex flex-col gap-2 pb-6">
-                  <p>Rating</p>
+                  <p className="text-medium-p">Rating</p>
                   <div>
                     <input type="checkbox" value="1" />
                     <label> 1-star</label>
@@ -99,7 +114,7 @@ function VenuesPage() {
                   </div>
                 </div>
                 <div className="flex flex-col gap-2 pb-6">
-                  <p>Services</p>
+                  <p className="text-medium-p">Services</p>
                   <div>
                     <input type="checkbox" value="Breakfast" />
                     <label>Breakfast</label>
@@ -121,9 +136,10 @@ function VenuesPage() {
             </div>
           </div>
         </div>
+
       <div className="p-6 col-span-2">
         <div className="flex flex-col gap-4">
-          {venues.map((venue) => (
+          {filteredVenues.map((venue) => (
             <VenueCard key={venue.id} venue={venue} />
           ))}
         </div>
