@@ -26,7 +26,8 @@ function HomePage() {
             A handpicked collection of exquisite wedding venues
           </p>
           <div className="flex flex-row gap-4 mt-8">
-            <button className="primary-button-light">About us</button>
+            <button className="primary-button-light" 
+            onClick={() => location.href = `/venues`}>View venues</button>
             <button className="secondary-button-light">Contact us</button>
           </div>
         </div>
