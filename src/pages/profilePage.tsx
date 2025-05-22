@@ -1,10 +1,10 @@
 import React from "react";
-import { UserProfile } from "../api/profilesApi.ts";
+import { UserProfile } from "../api/profilesApi";
 import { useEffect, useState } from "react";
-import { useAuth } from "../contexts/authContext.jsx";
-import { cleanDataContext } from "../contexts/cleanData.tsx";
-import { Booking, fetchBookingsByProfile } from "../api/bookingsApi.ts";
-import BookingListDropDown from "../components/bookings.tsx";
+import { useAuth } from "../contexts/authContext";
+import { cleanDataContext } from "../contexts/cleanData";
+import { Booking, fetchBookingsByProfile } from "../api/bookingsApi";
+import BookingListDropDown from "../components/bookings";
 
 function ProfilePage() {
   const { user } = useAuth();
@@ -14,22 +14,19 @@ function ProfilePage() {
 
   useEffect(() => {
     setProfile(cleanDataContext(user));
-    fetchBookingsByProfile(user.name, user.accessToken)
-      .then((response) => {
-        if (response) {
-          setBookings(response.data);
-        } else {
-          console.error("No bookings found for this profile.");
-        }
-      });
+    fetchBookingsByProfile(user.name, user.accessToken).then((response) => {
+      if (response) {
+        setBookings(response.data);
+      } else {
+        console.error("No bookings found for this profile.");
+      }
+    });
   }, [user]);
-
-  const [open, setOpen] = useState(false);
 
   if (!user) return <p>Loading...</p>;
 
   return (
-    <div className="profile-page">
+    <div className="profile-page text-woody-wine px-wrapper">
       <div>
         <h1 className="text-woody-wine text-4xl font-bold text-center my-20">
           Welcome {profile.name}!
@@ -48,22 +45,28 @@ function ProfilePage() {
             />
           </div>
           <div className="m-auto">
-            <h2 className="text-woody-wine py-2">{profile.name}</h2>
-            <p className="text-woody-wine">
-              {profile.bio || "No description yet"}
-            </p>
+            <h2 className="py-2">{profile.name}</h2>
+            <p className="">{profile.bio || "No description yet"}</p>
           </div>
           <div>
             <button className="primary-button-dark">Update Profile</button>
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center my-20">
-        <h3 className="text-woody-wine">Bookings:</h3>
+      <div>
+        <div className="flex flex-col items-center my-10">
+          <h3>Bookings:</h3>
+        </div>
+        <div className="text-center">
+          {bookings.length === 0 ? (
+            <p className="py-5 text-medium-p">No bookings yet</p>
+          ) : (
+            bookings.map((booking) => (
+              <BookingListDropDown key={booking.id} booking={booking} />
+            ))
+          )}
+        </div>
       </div>
-{
-  bookings?.map((booking) => <BookingListDropDown key={booking.id} booking={booking} />)
-}
     </div>
   );
 }

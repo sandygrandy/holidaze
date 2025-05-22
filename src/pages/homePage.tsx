@@ -7,7 +7,9 @@ function HomePage() {
 
   useEffect(() => {
     fetchVenues().then((response) => {
-      const images = response.data.filter((_, index) => index <= 5).map((venue) => (
+      const images = response.data
+        .filter((venue) => venue.media.length > 0)
+        .filter((_, index) => index <= 5).map((venue) => (
         {
           url: venue.media[0].url,
           title: venue.name,

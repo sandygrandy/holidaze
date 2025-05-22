@@ -1,4 +1,5 @@
 import { ApiResponse } from "./ApiResponse";
+import { Booking } from "./bookingsApi";
 
 const PROFILES_BASE_URL = "https://v2.api.noroff.dev/holidaze/profiles";
 const VENUES_BASE_URL = "https://v2.api.noroff.dev/holidaze/venues";
@@ -18,8 +19,15 @@ export interface Venue {
     media: {
         url: string;
         alt: string;
-    };
+    }[];
     rating?: number;
+    bookings?: Booking[];
+    meta?: {
+        wifi: boolean;
+        parking: boolean;
+        breakfast: boolean;
+        pets: boolean;
+    };
 }
 
 export const fetchVenues = async (): Promise<ApiResponse<Venue[]>> => {
@@ -48,9 +56,10 @@ export const fetchVenuesByProfile = async (name: string): Promise<ApiResponse<Ve
     }
 };
 
-export const fetchVenueById = async (id: string): Promise<ApiResponse<Venue>> => {
+export const fetchVenueById = async (id: string, includeBookings?: boolean): Promise<ApiResponse<Venue>> => {
     try {
-        const response = await fetch(`${VENUES_BASE_URL}/${id}`);
+        const url = includeBookings ? `${VENUES_BASE_URL}/${id}?_bookings=true` : `${VENUES_BASE_URL}/${id}`;
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Error fetching venue with ID ${id}`);
         }

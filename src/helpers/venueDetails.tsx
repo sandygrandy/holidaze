@@ -1,5 +1,7 @@
 
-export const defaultVenueDetails =  {
+import { Venue } from "../api/venuesApi";
+
+export const defaultVenueDetails = {
     name: "",
     id: "",
     description: "",
@@ -20,5 +22,5 @@ export const defaultVenueDetails =  {
       country: "",
       continent: "",
     },
-  };
+  } as Venue;
 

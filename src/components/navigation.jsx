@@ -62,16 +62,8 @@ function Navigation() {
           )}
 
           {isLoggedIn && (
-            <li className="m-6 text-woody-wine text-medium-p relative group">
+            <li className="m-6 text-woody-wine text-medium-p">
               <Link to="/profile">Profile</Link>
-              <ul className="absolute hidden group-hover:flex flex-col bg-white shadow-md rounded-md w-40 z-50">
-                <li className="px-4 py-2 hover:bg-gray-100 rounded-md">
-                  <Link to="/settings">Settings</Link>
-                </li>
-                <li className="px-4 py-2 hover:bg-gray-100 rounded-md">
-                  <Link to="/bookings">My Bookings</Link>
-                </li>
-              </ul>
             </li>
           )}
 

@@ -8,7 +8,6 @@ import HomePage from "./pages/homePage";
 import VenuesPage from "./pages/venuesPage";
 import LoginPage from "./pages/loginPage";
 import RegisterPage from "./pages/registerPage";
-import BookingPage from "./pages/bookingPage";
 import Dashboard from "./pages/dashboard";
 import ProfilePage from "./pages/profilePage";
 import CreateVenue from "./pages/createVenuePage";
@@ -28,7 +27,6 @@ function App() {
           <Route path="/venue/:id" element={<SingleVenuePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/book/:id" element={<BookingPage />} />
           <Route
             path="/dashboard"
             element={

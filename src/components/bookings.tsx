@@ -5,6 +5,7 @@ import { Booking } from "../api/bookingsApi";
 type BookingListDropDownProps = {
   booking: Booking;
 };
+
 function BookingListDropDown({ booking }: BookingListDropDownProps) {
   const [open, setOpen] = useState(false);
 
