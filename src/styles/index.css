@@ -134,6 +134,7 @@ h5 {
     color: var(--color-woody-wine);
     padding: 3px 18px;
     border: 2px solid var(--color-woody-wine);
+    border-radius: 5px;
     cursor: pointer;
 }
 

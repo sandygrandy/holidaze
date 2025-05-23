@@ -54,8 +54,8 @@ function ProfilePage() {
         </div>
       </div>
       <div>
-        <div className="flex flex-col items-center my-10">
-          <h3>Bookings:</h3>
+        <div className="flex flex-col items-center my-5">
+          <h3>Upcoming bookings:</h3>
         </div>
         <div className="text-center">
           {bookings.length === 0 ? (

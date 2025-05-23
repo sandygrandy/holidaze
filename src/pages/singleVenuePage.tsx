@@ -114,7 +114,6 @@ function SingleVenuePage() {
         </div>
         <div className="flex flex-col justify-center items-center py-10">
           <h3>Book your stay</h3>
-
           <BookingForm
             accessToken={token}
             venueId={id}

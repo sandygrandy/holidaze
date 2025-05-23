@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { API_KEY } from "../api/API_KEY.mjs";
 import getAccessToken from "../helpers/token";
 import { toast } from "react-toastify";
+import { fetchBookingsAtVenue } from "../api/bookingsApi";
+import { Booking } from "../api/bookingsApi";
+import { formatDateRange } from "../helpers/dateFormatter";
 
 interface Venue {
   id: string;
@@ -27,12 +30,19 @@ interface Venue {
     country: string;
     continent: string;
   };
+  _count: {
+    bookings: number;
+  };
 }
 
 function ManagerVenuesView() {
   const [venues, setVenues] = useState<Venue[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [overlayVisible, setOverlayVisible] = useState(false);
+  const [selectedVenueBookings, setSelectedVenueBookings] = useState<Booking[]>([]);
+  const [selectedVenueName, setSelectedVenueName] = useState<string>("");
+
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const name = user.name;
@@ -98,6 +108,19 @@ function ManagerVenuesView() {
     });
   }
 
+  async function handleBookings(id: string, venueName: string) {
+    try {
+      const bookings = await fetchBookingsAtVenue(id, token);
+      if (!bookings) throw new Error("No bookings found for this venue");
+      setSelectedVenueBookings(bookings);
+      setSelectedVenueName(venueName);
+      setOverlayVisible(true);
+    } catch (err: any) {
+      toast.error(err.message || "Failed to fetch bookings");
+    }
+  }
+  
+
   if (!name) {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
@@ -111,9 +134,7 @@ function ManagerVenuesView() {
 
   return (
     <div className="flex flex-col items-center min-h-screen">
-      <h1 className="text-woody-wine text-4xl font-bold my-8">
-       Your Venues
-      </h1>
+      <h1 className="text-woody-wine text-4xl font-bold my-8">Your Venues</h1>
       {loading && <p>Loading venues...</p>}
       {error && <p className="text-red-500">{error}</p>}
       {!loading && venues.length === 0 && (
@@ -123,18 +144,20 @@ function ManagerVenuesView() {
         {venues.map((venue) => (
           <div
             key={venue.id}
-            className="bg-white rounded shadow p-4 flex flex-col">
+            className="bg-white rounded shadow p-4 flex flex-col"
+          >
             <img
               src={venue.media[0]?.url || "https://via.placeholder.com/400x200"}
               alt={venue.media[0]?.alt || venue.name}
-              className="w-full h-48 object-cover rounded mb-2"/>
+              className="w-full h-48 object-cover rounded mb-2"
+            />
             <h3 className="text-woody-wine text-xl font-semibold mb-3">
               {venue.name}
             </h3>
             <div className="h-24 overflow-hidden">
-            <p className="text-woody-wine mb-2 text-small-p line-clamp-3">
-              {venue.description}
-            </p>
+              <p className="text-woody-wine mb-2 text-small-p line-clamp-3">
+                {venue.description}
+              </p>
             </div>
             <div className="flex flex-wrap gap-2 mb-3">
               <span className="text-small-p text-woody-wine">
@@ -177,10 +200,56 @@ function ManagerVenuesView() {
                 Delete
               </button>
             </div>
+              <button
+                className="secondary-button-light mt-2"
+                onClick={() => handleBookings(venue.id, venue.name)}
+                
+              >
+                View {venue._count?.bookings} bookings
+              </button>
           </div>
         ))}
-      </div>
+        {overlayVisible && (
+  <div className="fixed inset-0 bg-black/75 flex items-center justify-center z-50">
+    <div className="bg-white rounded shadow-lg p-6 w-[60vw] max-h-[80vh] overflow-y-auto">
+      <h2 className="text-woody-wine text-2xl font-bold mb-4">
+        Bookings at {selectedVenueName}
+      </h2>
+      {selectedVenueBookings.length === 0 ? (
+        <p className="text-gray-600">No bookings for this venue.</p>
+      ) : (
+        <ul className="space-y-2">
+          {selectedVenueBookings.map((booking) => (
+            <li key={booking.id} className="border-b pb-2">
+              <p>
+                <h4>Dates:</h4> {formatDateRange(booking.dateFrom, booking.dateTo)}
+              </p>
+              <p>
+                <h4>Guests:</h4> {booking.guests}
+              </p>
+              <p>
+                <h4>Booked by:</h4> {booking.customer?.name} ({booking.customer?.email})
+              </p>
+            </li>
+          ))}
+        </ul>
+      )}
+      <button
+        onClick={() => {
+          setOverlayVisible(false);
+          setSelectedVenueBookings([]);
+          setSelectedVenueName("");
+        }}
+        className="primary-button-dark mt-6 w-full"
+      >
+        Close
+      </button>
     </div>
+  </div>
+)}
+
+      </div>
+      </div>
   );
 }
 
