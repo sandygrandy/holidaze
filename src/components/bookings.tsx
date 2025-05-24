@@ -11,7 +11,7 @@ function BookingListDropDown({ booking }: BookingListDropDownProps) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="w-1/2 m-auto mb-2 rounded  shadow-md">
+    <div className="w-1/2 m-auto mb-2 rounded shadow-md">
       <div className="flex flex-row items-center py-5 justify-evenly bg-white">
         <div>
         <h5>{booking.venue?.name}</h5>

@@ -1,23 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { fetchVenues } from "../api/venuesApi";
+import { fetchVenuesByProfile } from "../api/venuesApi";
 import Carousel, { CarouselImage } from "../components/carousel";
+import getUserData from "../helpers/getUserData";
 
 function HomePage() {
   const [carouselImages, setCarouselImages] = useState<CarouselImage[]>([]);
+  const user = getUserData();
 
   useEffect(() => {
-    fetchVenues().then((response) => {
+    fetchVenuesByProfile(user.name).then((response) => {
       const images = response.data
         .filter((venue) => venue.media.length > 0)
         .filter((_, index) => index <= 5).map((venue) => (
         {
           url: venue.media[0].url,
           title: venue.name,
+          props: {
+            id: venue.id
+          }
         }
       ));
       setCarouselImages(images);
     });
   }, []);
+
+  function handleImageClick(item: CarouselImage) {
+    if (!item.props || !item.props.id) {
+      return;
+    }
+    location.href = `/venue/${item.props.id}`; // Assuming title is unique for each venue
+  }
 
   return (
     <div>
@@ -35,10 +47,11 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="h-highlights bg-white px-wrapper flex flex-col pt-[50px]">
+      <section className="h-fit bg-white px-wrapper flex flex-col p-10">
         <h2>Highlights</h2>
          <Carousel
           images={carouselImages}
+          onItemClicked={handleImageClick}
         />
       </section>
 
