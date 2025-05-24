@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
+import React from "react";
 
 function registerPage() {
-  async function registerUser(name, email, password) {
+  async function registerUser(name: string, email: string, password: string) {
     const response = await fetch("https://v2.api.noroff.dev/auth/register", {
       method: "POST",
       headers: {
@@ -15,15 +16,23 @@ function registerPage() {
     return await response.json();
   }
 
-  function handleRegister(event) {
+  function handleRegister(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const name = event.target.name.value;
-    const email = event.target.email.value;
-    const password = event.target.password.value;
+    const form = event.target as HTMLFormElement;
+    const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement).value;
+
+    if (!email.endsWith("@stud.noroff.no")) {
+      alert(
+        "You need to have a valid Noroff email address to register."
+      );
+      return;
+    }
 
     registerUser(name, email, password)
-      .then((data) => {
-        console.log("User registered successfully:", data);
+      .then(() => {
+        window.location.href = "/";
       })
       .catch((error) => {
         console.error("Error registering user:", error);
@@ -37,25 +46,7 @@ function registerPage() {
         <form
           className="flex flex-col mt-4"
           onSubmit={(event) => {
-            event.preventDefault();
-            const name = event.target.name.value;
-            const email = event.target.email.value;
-            const password = event.target.password.value;
-
-            if (!email.endsWith("@stud.noroff.no")) {
-              alert(
-                "You need to have a valid Noroff email address to register."
-              );
-              return;
-            }
-
-            registerUser(name, email, password)
-              .then((data) => {
-                console.log("User registered successfully:", data);
-              })
-              .catch((error) => {
-                console.error("Error registering user:", error);
-              });
+            handleRegister(event as React.FormEvent<HTMLFormElement>);  
           }}
         >
           <label htmlFor="name">Username:</label>

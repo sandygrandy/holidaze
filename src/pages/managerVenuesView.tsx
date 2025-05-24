@@ -40,9 +40,10 @@ function ManagerVenuesView() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [overlayVisible, setOverlayVisible] = useState(false);
-  const [selectedVenueBookings, setSelectedVenueBookings] = useState<Booking[]>([]);
+  const [selectedVenueBookings, setSelectedVenueBookings] = useState<Booking[]>(
+    []
+  );
   const [selectedVenueName, setSelectedVenueName] = useState<string>("");
-
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const name = user.name;
@@ -119,7 +120,6 @@ function ManagerVenuesView() {
       toast.error(err.message || "Failed to fetch bookings");
     }
   }
-  
 
   if (!name) {
     return (
@@ -200,56 +200,56 @@ function ManagerVenuesView() {
                 Delete
               </button>
             </div>
-              <button
-                className="secondary-button-light mt-2"
-                onClick={() => handleBookings(venue.id, venue.name)}
-                
-              >
-                View {venue._count?.bookings} bookings
-              </button>
+            <button
+              className="secondary-button-light mt-2"
+              onClick={() => handleBookings(venue.id, venue.name)}
+            >
+              View {venue._count?.bookings} bookings
+            </button>
           </div>
         ))}
         {overlayVisible && (
-  <div className="fixed inset-0 bg-black/75 flex items-center justify-center z-50">
-    <div className="bg-white rounded shadow-lg p-6 w-[60vw] max-h-[80vh] overflow-y-auto">
-      <h2 className="text-woody-wine text-2xl font-bold mb-4">
-        Bookings at {selectedVenueName}
-      </h2>
-      {selectedVenueBookings.length === 0 ? (
-        <p className="text-gray-600">No bookings for this venue.</p>
-      ) : (
-        <ul className="space-y-2">
-          {selectedVenueBookings.map((booking) => (
-            <li key={booking.id} className="border-b pb-2">
-              <p>
-                <h4>Dates:</h4> {formatDateRange(booking.dateFrom, booking.dateTo)}
-              </p>
-              <p>
-                <h4>Guests:</h4> {booking.guests}
-              </p>
-              <p>
-                <h4>Booked by:</h4> {booking.customer?.name} ({booking.customer?.email})
-              </p>
-            </li>
-          ))}
-        </ul>
-      )}
-      <button
-        onClick={() => {
-          setOverlayVisible(false);
-          setSelectedVenueBookings([]);
-          setSelectedVenueName("");
-        }}
-        className="primary-button-dark mt-6 w-full"
-      >
-        Close
-      </button>
+          <div className="fixed inset-0 bg-black/75 flex items-center justify-center z-50">
+            <div className="bg-white rounded shadow-lg p-6 w-[60vw] max-h-[80vh] overflow-y-auto">
+              <h2 className="text-woody-wine text-2xl font-bold mb-4">
+                Bookings at {selectedVenueName}
+              </h2>
+              {selectedVenueBookings.length === 0 ? (
+                <p className="text-gray-600">No bookings for this venue.</p>
+              ) : (
+                <ul className="space-y-2">
+                  {selectedVenueBookings.map((booking) => (
+                    <li key={booking.id} className="border-b pb-2">
+                      <p>
+                        <h4>Dates:</h4>{" "}
+                        {formatDateRange(booking.dateFrom, booking.dateTo)}
+                      </p>
+                      <p>
+                        <h4>Guests:</h4> {booking.guests}
+                      </p>
+                      <p>
+                        <h4>Booked by:</h4> {booking.customer?.name} (
+                        {booking.customer?.email})
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <button
+                onClick={() => {
+                  setOverlayVisible(false);
+                  setSelectedVenueBookings([]);
+                  setSelectedVenueName("");
+                }}
+                className="primary-button-dark mt-6 w-full"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
-  </div>
-)}
-
-      </div>
-      </div>
   );
 }
 

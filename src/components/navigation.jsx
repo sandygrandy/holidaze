@@ -28,9 +28,12 @@ function Navigation() {
   };
 
   return (
-    <div className="bg-greige w-full h-nav-height flex items-center px-wrapper flex-row justify-between">
+    <div className="bg-greige w-full h-nav-height flex items-center px-10 md:px-wrapper flex-row justify-between">
       <div>
-        <img src="../src/logo/Veloura.png" alt="Veloura Logo"></img>
+        <img 
+        className="w-32 md:w-56"
+        src="../src/logo/Veloura.png" 
+        alt="Veloura Logo"></img>
       </div>
       <div>
         <ul className="flex items-center justify-center flex-row">

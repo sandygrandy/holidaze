@@ -29,7 +29,7 @@ const Carousel: FunctionComponent<CarouselProps> = ({ images, onItemClicked }) =
         const handleResize = () => {
             if (window.innerWidth >= 1024)
                 setVisibleItems(3); // Large screens
-            else if (window.innerWidth >= 768)
+            else if (window.innerWidth >= 895)
                 setVisibleItems(2); // Medium screens
             else
                 setVisibleItems(1); // Small screens
@@ -90,30 +90,34 @@ const Carousel: FunctionComponent<CarouselProps> = ({ images, onItemClicked }) =
                     <img
                         src="/src/icons/left-arrow.png"
                         alt="Arrow left"
-                        className="h-icon-size cursor-pointer"
+                        className="h-icon-size-mobile lg:h-icon-size cursor-pointer"
                         onClick={handlePrev}
                     />
                     <div className="flex overflow-hidden w-full">
                         <div
                             className={`flex transition-transform ${transitionDuration}`}
                             style={{
-                                transform: `translateX(-${(currentIndex * 100) / visibleItems}%)`,
+                                // transform: `translateX(-${(currentIndex * 100) / visibleItems}%)`,
+                                transform: `translateX(-${100 / rotatedImages.length * currentIndex}%)`,
                                 width: `${(rotatedImages.length / visibleItems) * 100}%`,
+                                flexShrink: 0,
                             }}
                         >
                             {rotatedImages.map((img, index) => (
                                 <div
-                                    className={`flex-none p-4 overflow-hidden ${
-                                        visibleItems === 1
-                                            ? 'w-full'
-                                            : visibleItems === 2
-                                            ? 'w-1/2'
-                                            : 'w-1/3'
-                                    }`}
+                                    className='flex-none p-4 overflow-hidden'
+                                    // className={`flex-none p-4 overflow-hidden ${
+                                    //     visibleItems === 1
+                                    //         ? 'w-full'
+                                    //         : visibleItems === 2
+                                    //         ? 'w-1/2'
+                                    //         : 'w-1/3'
+                                    // }`}
+                                    style={{ width: `${100 / rotatedImages.length}%` }}
                                     key={index}
                                 >
                                     <img
-                                        className="w-full object-cover mb-4 rounded-lg h-[300px]"
+                                        className="w-full object-cover mb-4 rounded-lg h-[25vh]"
                                         style={{ cursor: onItemClicked ? 'pointer' : 'default' }}
                                         src={img.url}
                                         onClick={onItemClicked ? () => onItemClicked(img) : undefined}
@@ -129,7 +133,7 @@ const Carousel: FunctionComponent<CarouselProps> = ({ images, onItemClicked }) =
                     <img
                         src="/src/icons/right-arrow.png"
                         alt="Arrow right"
-                        className="h-icon-size cursor-pointer"
+                        className="h-icon-size-mobile lg:h-icon-size cursor-pointer"
                         onClick={handleNext}
                     />
                 </div>

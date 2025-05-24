@@ -2,9 +2,12 @@ import { Link } from "react-router";
 
 function Footer() {
   return (
-    <div className="w-full h-footer-height bg-tulip flex items-center px-wrapper flex-row justify-between">
-      <div>
-        <img src="../src\logo\Veloura.png" alt="Veloura Logo"></img>
+    <div className="w-full h-footer-height bg-tulip flex items-center px-10 md:px-wrapper flex-row justify-between">
+      <div className="hidden md:flex ">
+        <img 
+        className="w-full object-contain "
+        src="../src\logo\Veloura.png" 
+        alt="Veloura Logo"></img>
       </div>
       <div>
         <h5 className="text-woody-wine">Help</h5>

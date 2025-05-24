@@ -19,7 +19,7 @@
 
     /* Icons */
     --spacing-icon-size: 50px;
-    --spacing-icon-size-mobile: 30px;
+    --spacing-icon-size-mobile: 25px;
 
     /* Custom paragraph sizes */
     --text-big-p: 22px;
@@ -79,6 +79,24 @@ h3 {
 
 h5 {
     font-size: 22px;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 48px;
+    }
+
+    h2 {
+        font-size: 36px;
+    }
+
+    h3 {
+        font-size: 24px;
+    }
+
+    h5 {
+        font-size: 20px;
+    }
 }
 
 .primary-button-light {

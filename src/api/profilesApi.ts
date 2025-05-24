@@ -1,9 +1,7 @@
 import { ApiResponse } from "./ApiResponse";
 import { API_KEY } from "./API_KEY.mjs";
-import { cleanDataContext } from "../contexts/cleanData.tsx";
 import { Venue } from "./venuesApi";
-import getUserData from "../helpers/getUserData.tsx";
-import { StoredUserProfile } from "../helpers/getUserData.tsx";
+
 
 const PROFILES_BASE_URL = "https://v2.api.noroff.dev/holidaze/profiles";
 
@@ -22,40 +20,6 @@ export interface UserProfile {
     venuemanager?: boolean;
 };
 
-const user = getUserData();
-
-export const fetchUserProfileLoggedIn = async (storedUser: StoredUserProfile): Promise<ApiResponse<UserProfile> | null> => {
-    try {
-      const response = await fetch(`https://v2.api.noroff.dev/holidaze/profiles/${user.name}`, {
-        headers: {
-          Authorization: `Bearer ${user.accessToken}`,
-          "X-Noroff-API-Key": API_KEY,
-        },
-      });
-  
-      const result = await response.json();
-      result.data = cleanDataContext(result.data);
-      return result as ApiResponse<UserProfile>;
-    } catch (error) {
-      console.error("Error fetching profile:", error);
-      throw error;
-    }
-  };
-
-
-export const fetchProfiles = async (): Promise<ApiResponse<UserProfile[]>> => {
-    try {
-        const response = await fetch(PROFILES_BASE_URL);
-        if (!response.ok) {
-            throw new Error("Error fetching profiles");
-        }
-        return await response.json();
-    } catch (error) {
-        console.error("Error fetching profiles:", error);
-        throw error;
-    }
-};
-
 export const fetchVenuesByProfile = async (name: string): Promise<ApiResponse<Venue[]>> => {
     try {
         const response = await fetch(`${PROFILES_BASE_URL}/${name}/venues`);
@@ -69,22 +33,25 @@ export const fetchVenuesByProfile = async (name: string): Promise<ApiResponse<Ve
     }
 };
 
-export const updateProfile = async (name: string, profile: UserProfile, token: string): Promise<ApiResponse<UserProfile>> => {
+export const updateProfile = async (profile: UserProfile, token: string): Promise<ApiResponse<UserProfile>> => {
     try {
-        const response = await fetch(`${PROFILES_BASE_URL}/${name}`, {
+        const response = await fetch(`${PROFILES_BASE_URL}/${profile.name}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
+                "X-Noroff-API-Key": API_KEY,
             },
             body: JSON.stringify(profile),
         });
         if (!response.ok) {
-            throw new Error(`Error updating profile ${name}`);
+            throw new Error(`Error updating profile ${profile.name}`);
         }
-        return await response.json();
+        const res = await response.json();
+        localStorage.setItem("user", JSON.stringify({...profile, ...res.data}));
+        return await res;
     } catch (error) {
-        console.error(`Error updating profile ${name}:`, error);
+        console.error(`Error updating profile ${profile.name}:`, error);
         throw error;
     }
 };
