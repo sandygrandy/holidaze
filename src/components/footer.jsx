@@ -6,7 +6,7 @@ function Footer() {
       <div className="hidden md:flex ">
         <img 
         className="w-full object-contain "
-        src="../src\logo\Veloura.png" 
+        src="/logo/Veloura.png" 
         alt="Veloura Logo"></img>
       </div>
       <div>
