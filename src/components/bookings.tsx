@@ -35,7 +35,7 @@ function BookingCard({ booking }: BookingCardProps) {
         <div>
         <button onClick={() => setOpen((prev) => !prev)}>
           <img 
-          src="../src/icons/arrow-down.png" 
+          src="/icons/arrow-down.png" 
           className={`w-5 h-5 ${open ? "rotate-180" : ""}`}
           alt="dropdown" />
         </button>

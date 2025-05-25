@@ -47,7 +47,7 @@ function Navigation() {
           <img 
           onClick={() => window.location.href = "/"}
           className="w-32 md:w-56 cursor-pointer"
-          src="../src/logo/Veloura.png" 
+          src="/logo/Veloura.png" 
           alt="Veloura Logo"></img>
         </div>
         <div className="normal-menu">
