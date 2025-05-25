@@ -5,12 +5,14 @@ import Carousel, { CarouselImage } from "../components/carousel";
 function HomePage() {
   const [carouselImages, setCarouselImages] = useState<CarouselImage[]>([]);
 
+  const countOfVenueHighlightsToShow = 6; // Number of venue highlights to show
+
   useEffect(() => {
     // Added a search here to filter out all the ugly test venues people made
-    fetchVenues({search: "sea"}).then((response) => {
+    fetchVenues({search: "sea", limit: countOfVenueHighlightsToShow}).then((response) => {
       const images = response.data
         .filter((venue) => venue.media.length > 0)
-        .filter((_, index) => index <= 5).map((venue) => (
+        .map((venue) => (
         {
           url: venue.media[0].url,
           title: venue.name,
