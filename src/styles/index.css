@@ -10,6 +10,7 @@
 
     /* Height */
     --spacing-nav-height: 115px;
+    --spacing-nav-height-mobile: 80px;
     --spacing-footer-height: 200px;
     --spacing-wrapper: 95px;
     --spacing-hero: 500px;
@@ -183,4 +184,22 @@ h5 {
 
 img {
     max-width: none;
+}
+
+
+/* Hamburger menu */
+
+.hamburger-menu-button {
+    display: none;
+}
+
+@media screen and (max-width: 885px) {
+    .hamburger-menu-button {
+        display: block;
+    }
+
+    .normal-menu {
+        display: none;
+    }
+    
 }

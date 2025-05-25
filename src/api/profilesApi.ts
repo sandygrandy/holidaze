@@ -17,7 +17,7 @@ export interface UserProfile {
         url: string;
         alt: string;
     };
-    venuemanager?: boolean;
+    venueManager?: boolean;
 };
 
 export const updateProfile = async (profile: UserProfile): Promise<ApiResponse<UserProfile>> => {

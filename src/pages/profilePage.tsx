@@ -7,14 +7,14 @@ import { Booking, fetchBookingsByProfile } from "../api/bookingsApi";
 import BookingCard from "../components/bookings";
 import { updateProfile } from "../api/profilesApi";
 
-
 function ProfilePage() {
-  const { user, updateUser } = useAuth();
+  const { user } = useAuth();
   const [profile, setProfile] = useState<UserProfile>(user);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [imageAlt, setImageAlt] = useState("");
+  const [venueManager, setVenueManager] = useState(user.venueManager || false);
 
   useEffect(() => {
     setProfile(cleanDataContext(user));
@@ -32,18 +32,22 @@ function ProfilePage() {
   };
 
   async function updateProfileData() {
-    let profileData = { ...profile, avatar: { url: imageUrl, alt: imageAlt } };
-    profileData.banner = undefined; // Remove banner if not needed, or handle it as required
+    let profileData = { ...profile, venueManager };
+    // Update imageUrl on the profile.avatar if it is set, same with imageAlt
+    if (imageUrl || imageAlt) {
+      profileData.avatar = {
+        url: imageUrl || profile.avatar?.url || "",
+        alt: imageAlt || profile.avatar?.alt || "",
+      };
+    }
+    profileData.banner = undefined; // Banner not needed
     const updatedProfile = await updateProfile(profileData);
     if (updatedProfile) {
-      updateUser(updatedProfile.data)
-      setProfile(updatedProfile.data);
-      setIsOverlayOpen(false);
+      window.location.reload(); // Reload the page to reflect changes
     } else {
       console.error("Failed to update profile.");
     }
   }
-
 
   if (!user) return <p>Loading...</p>;
 
@@ -71,7 +75,10 @@ function ProfilePage() {
             <p className="">{profile.bio || "No description yet"}</p>
           </div>
           <div>
-            <button className="primary-button-dark" onClick={handleUpdateProfile}>
+            <button
+              className="primary-button-dark"
+              onClick={handleUpdateProfile}
+            >
               Update Profile
             </button>
           </div>
@@ -114,6 +121,17 @@ function ProfilePage() {
                 className="border p-2 w-full"
               />
             </div>
+            <div className="mb-4">
+              <label>I am a venue manager</label>
+              <input
+                type="checkbox"
+                className="ml-2"
+                checked={venueManager || false}
+                onChange={(e) =>
+                  setVenueManager(e.target.checked)
+                }
+              />
+            </div>
             <div className="flex justify-center gap-4">
               <button
                 className="secondary-button-dark"
@@ -121,7 +139,10 @@ function ProfilePage() {
               >
                 Cancel
               </button>
-              <button className="primary-button-dark" onClick={updateProfileData}>
+              <button
+                className="primary-button-dark"
+                onClick={updateProfileData}
+              >
                 Save
               </button>
             </div>
@@ -131,6 +152,5 @@ function ProfilePage() {
     </div>
   );
 }
-
 
 export default ProfilePage;

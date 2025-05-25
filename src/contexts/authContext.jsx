@@ -42,22 +42,9 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn(false);
         setIsManager(false);
     };
-
-    const updateUser = (updatedUser) => {
-        setUser((prev) => {
-            const newUser = {...prev, ...updatedUser};
-            localStorage.setItem("user", JSON.stringify(newUser));
-            return newUser;
-        });
-        if (updatedUser.venueManager === true) {
-            setIsManager(true);
-        } else {
-            setIsManager(false);
-        }
-    }
     
     return (
-        <AuthContext.Provider value={{ user, isLoggedIn, isManager, isLoading, login, logout, updateUser }}>
+        <AuthContext.Provider value={{ user, isLoggedIn, isManager, isLoading, login, logout }}>
         {children}
         </AuthContext.Provider>
     );

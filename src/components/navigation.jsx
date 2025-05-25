@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
+import Hamburger from 'hamburger-react'
 
 function Navigation() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isManager, setIsManager] = useState(false);
+  const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -22,6 +24,17 @@ function Navigation() {
     }
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+        setShowHamburgerMenu(false);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     window.location.reload();
@@ -29,7 +42,7 @@ function Navigation() {
 
   return (
     <>
-      <div className="bg-greige w-full h-nav-height flex items-center px-10 md:px-wrapper flex-row justify-between">
+      <div className="bg-greige w-full h-nav-height-mobile md:h-nav-height flex items-center px-10 md:px-wrapper flex-row justify-between">
         <div>
           <img 
           onClick={() => window.location.href = "/"}
@@ -79,10 +92,50 @@ function Navigation() {
             )}
           </ul>
         </div>
-        <div className="hamburger-menu hidden">
+        <div className="hamburger-menu-button">
+          <Hamburger 
+          color="#4C2C2C" 
           
+          toggled={showHamburgerMenu} 
+          toggle={setShowHamburgerMenu} />
         </div>
+        
       </div>
+      {showHamburgerMenu && 
+        <ul className="flex flex-col items-center justify-center">
+        <li className="m-4 text-woody-wine text-medium-p" onClick={() => setShowHamburgerMenu(false)}>
+          <Link to="/">Home</Link>
+        </li>
+        <li className="m-4 text-woody-wine text-medium-p" onClick={() => setShowHamburgerMenu(false)}>
+          <Link to="/venues" >Venues</Link>
+        </li>
+        {!isLoggedIn && (
+          <li className="m-4 text-woody-wine text-medium-p" onClick={() => setShowHamburgerMenu(false)}>
+            <Link to="/login" >Login</Link>
+          </li>
+        )}
+        {isManager && (
+          <li className="m-4 text-woody-wine text-medium-p" onClick={() => setShowHamburgerMenu(false)}>
+            <Link to="/managerVenuesView" >Manage venues</Link>
+          </li>
+        )}
+        {isManager && (
+          <li className="m-4 text-woody-wine text-medium-p" onClick={() => setShowHamburgerMenu(false)}>
+            <Link to="/createVenue" >New venue</Link>
+          </li>
+        )}
+        {isLoggedIn && (
+          <li className="m-6 text-woody-wine text-medium-p" onClick={() => setShowHamburgerMenu(false)}>
+            <Link to="/profile" >Profile</Link>
+          </li>
+        )}
+        {isLoggedIn && (
+          <li className="m-6 text-woody-wine text-medium-p logout-btn" onClick={() => setShowHamburgerMenu(false)}>
+            <button onClick={handleLogout}>Log out</button>
+          </li>
+        )}
+      </ul> 
+        }
     </>
   );
 }
