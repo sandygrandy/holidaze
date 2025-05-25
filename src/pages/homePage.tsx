@@ -34,7 +34,7 @@ function HomePage() {
 
   return (
     <div>
-      <section className="h-hero bg-[url('/src\images\hero-bg.png')] px-10 md:px-wrapper flex items-center text-white bg-cover bg-center bg-no-repeat">
+      <section className="h-hero bg-[url('/images/hero-bg.png')] px-10 md:px-wrapper flex items-center text-white bg-cover bg-center bg-no-repeat">
         <div>
           <h1>Forever starts here</h1>
           <p className="text-big-p">
@@ -60,7 +60,7 @@ function HomePage() {
       <section className="px-10 md:px-wrapper flex flex-col my-5 sm:my-15 gap-5 sm-gap-10 lg:gap-20 text-woody-wine lg:flex-row md:items-center">
         <div className="items-center lg:items-start">
           <img
-            src="/src/images/home-about.png"
+            src="/images/home-about.png"
             alt=""
             className="w-[60vw] lg:w-[40vw] object-cover"
           />
@@ -108,7 +108,7 @@ function HomePage() {
 
       <section>
         <img
-          src="/src/images/home-bottom.png"
+          src="/images/home-bottom.png"
           alt="Flower arrangement"
           className="bg-cover w-full"
         />

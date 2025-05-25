@@ -88,7 +88,7 @@ const Carousel: FunctionComponent<CarouselProps> = ({ images, onItemClicked }) =
             <div className="relative">
                 <div className="flex items-center">
                     <img
-                        src="/src/icons/left-arrow.png"
+                        src="/icons/left-arrow.png"
                         alt="Arrow left"
                         className="h-icon-size-mobile lg:h-icon-size cursor-pointer"
                         onClick={handlePrev}
@@ -124,7 +124,7 @@ const Carousel: FunctionComponent<CarouselProps> = ({ images, onItemClicked }) =
                         </div>
                     </div>
                     <img
-                        src="/src/icons/right-arrow.png"
+                        src="/icons/right-arrow.png"
                         alt="Arrow right"
                         className="h-icon-size-mobile lg:h-icon-size cursor-pointer"
                         onClick={handleNext}

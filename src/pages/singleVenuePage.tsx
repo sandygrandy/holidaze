@@ -62,7 +62,7 @@ function SingleVenuePage() {
         <div className="flex flex-row justify-center items-center">
           <div className="px-2 md:px-10">
             <img
-              src="/src/icons/left-arrow.png"
+              src="/icons/left-arrow.png"
               alt="Arrow right"
               className="h-icon-size-mobile lg:h-icon-size cursor-pointer"
               onClick={handlePrev}
@@ -77,7 +77,7 @@ function SingleVenuePage() {
           </div>
           <div className="px-2 md:px-10">
             <img
-              src="/src/icons/right-arrow.png"
+              src="/icons/right-arrow.png"
               alt="Arrow right"
               className="h-icon-size-mobile lg:h-icon-size cursor-pointer"
               onClick={handleNext}

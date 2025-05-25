@@ -3,7 +3,7 @@ import React from "react";
 const AboutPage = () => {
     return (
         <div>
-            <section className="bg-[url('../src/images/background-flowers.png')] bg-cover bg-center h-64 flex items-center justify-center text-white">
+            <section className="bg-[url('/images/background-flowers.png')] bg-cover bg-center h-64 flex items-center justify-center text-white">
                 <h1>About Veloura</h1>
             </section>
 
