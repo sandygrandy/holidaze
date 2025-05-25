@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { VenueCard } from "../components/venueCard";
-import { Venue } from "../api/venuesApi";
+import { fetchVenues, Venue } from "../api/venuesApi";
 
 function VenuesPage() {
   const [venues, setVenues] = useState<Venue[]>([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchVenues = async () => {
+    const loadVenues = async () => {
       try {
-        const response = await fetch(
-          "https://v2.api.noroff.dev/holidaze/venues?sort=created&sortOrder=desc"
-        );
-        const res = await response.json();
+        const res = await fetchVenues()
         if (Array.isArray(res.data)) {
           setVenues(res.data);
         } else {
@@ -25,7 +22,7 @@ function VenuesPage() {
       }
     };
 
-    fetchVenues();
+    loadVenues();
   }, []);
 
   const [searchQuery, setSearchQuery] = useState("");

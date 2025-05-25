@@ -1,7 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import getAccessToken from "../helpers/token";
 import { defaultVenueDetails } from "../helpers/venueDetails";
 import BookingForm from "../components/bookingForm";
 import { toast } from "react-toastify";
@@ -11,7 +10,6 @@ import { fetchVenueById } from "../api/venuesApi";
 
 function SingleVenuePage() {
   let { id } = useParams();
-  const token = getAccessToken();
   const [venueDetails, setVenueDetails] = useState(defaultVenueDetails);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -115,7 +113,6 @@ function SingleVenuePage() {
         <div className="flex flex-col justify-center items-center py-10">
           <h3>Book your stay</h3>
           <BookingForm
-            accessToken={token}
             venueId={id}
             onBookingCreated={(booking) => {
               toast.success(

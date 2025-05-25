@@ -1,14 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import { API_KEY } from "../api/API_KEY.mjs";
-import getAccessToken from "../helpers/token";
 import { defaultVenueDetails } from "../helpers/venueDetails";
-import { toast } from "react-toastify";
+import { createVenue, Venue } from "../api/venuesApi";
 
 function CreateVenue() {
-  const token = getAccessToken();
   const [venueDetails, setVenueDetails] = useState(defaultVenueDetails);
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -27,7 +23,9 @@ function CreateVenue() {
               ? e.target.checked
               : value,
         },
-      }));
+      }) as Venue);
+    }
+    if (name.startsWith("meta.")) {
     } else if (name.startsWith("location.")) {
       setVenueDetails((prev) => ({
         ...prev,
@@ -35,7 +33,7 @@ function CreateVenue() {
           ...prev.location,
           [name.split(".")[1]]: type === "number" ? Number(value) : value,
         },
-      }));
+      }) as Venue);
     } else if (name.startsWith("media.")) {
       const [_, field, index] = name.split(".");
       setVenueDetails((prev) => {
@@ -65,17 +63,9 @@ function CreateVenue() {
     setSuccess(false);
 
     try {
-      const res = await fetch("https://v2.api.noroff.dev/holidaze/venues", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-          "X-Noroff-API-Key": API_KEY,
-        },
-        body: JSON.stringify(venueDetails),
-      });
-      if (!res.ok) throw new Error("Failed to create venue");
+      await createVenue(venueDetails);
       setSuccess(true);
+      // defaultVenueDetails
       setVenueDetails(defaultVenueDetails);
     } catch (err: any) {
       setError(err.message || "Unknown error");
@@ -215,7 +205,7 @@ function CreateVenue() {
             <input
               type="checkbox"
               name="meta.wifi"
-              checked={venueDetails.meta.wifi}
+              checked={venueDetails.meta?.wifi}
               onChange={handleChange}
             />
             Wifi
@@ -224,7 +214,7 @@ function CreateVenue() {
             <input
               type="checkbox"
               name="meta.parking"
-              checked={venueDetails.meta.parking}
+              checked={venueDetails.meta?.parking}
               onChange={handleChange}
             />
             Parking
@@ -233,7 +223,7 @@ function CreateVenue() {
             <input
               type="checkbox"
               name="meta.breakfast"
-              checked={venueDetails.meta.breakfast}
+              checked={venueDetails.meta?.breakfast}
               onChange={handleChange}
             />
             Breakfast
@@ -242,7 +232,7 @@ function CreateVenue() {
             <input
               type="checkbox"
               name="meta.pets"
-              checked={venueDetails.meta.pets}
+              checked={venueDetails.meta?.pets}
               onChange={handleChange}
             />
             Pets
@@ -255,35 +245,35 @@ function CreateVenue() {
           <input
             name="location.address"
             placeholder="Address"
-            value={venueDetails.location.address}
+            value={venueDetails.location?.address}
             onChange={handleChange}
             className=""
           />
           <input
             name="location.city"
             placeholder="City"
-            value={venueDetails.location.city}
+            value={venueDetails.location?.city}
             onChange={handleChange}
             className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <input
             name="location.zip"
             placeholder="Zip"
-            value={venueDetails.location.zip}
+            value={venueDetails.location?.zip}
             onChange={handleChange}
             className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <input
             name="location.country"
             placeholder="Country"
-            value={venueDetails.location.country}
+            value={venueDetails.location?.country}
             onChange={handleChange}
             className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <input
             name="location.continent"
             placeholder="Continent"
-            value={venueDetails.location.continent}
+            value={venueDetails.location?.continent}
             onChange={handleChange}
             className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />

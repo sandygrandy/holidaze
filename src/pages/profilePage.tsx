@@ -4,11 +4,12 @@ import { useEffect } from "react";
 import { useAuth } from "../contexts/authContext";
 import { cleanDataContext } from "../contexts/cleanData";
 import { Booking, fetchBookingsByProfile } from "../api/bookingsApi";
-import BookingListDropDown from "../components/bookings";
+import BookingCard from "../components/bookings";
 import { updateProfile } from "../api/profilesApi";
 
+
 function ProfilePage() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const [profile, setProfile] = useState<UserProfile>(user);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
@@ -17,7 +18,7 @@ function ProfilePage() {
 
   useEffect(() => {
     setProfile(cleanDataContext(user));
-    fetchBookingsByProfile(user.name, user.accessToken).then((response) => {
+    fetchBookingsByProfile(user.name).then((response) => {
       if (response) {
         setBookings(response.data);
       } else {
@@ -33,8 +34,9 @@ function ProfilePage() {
   async function updateProfileData() {
     let profileData = { ...profile, avatar: { url: imageUrl, alt: imageAlt } };
     profileData.banner = undefined; // Remove banner if not needed, or handle it as required
-    const updatedProfile = await updateProfile(profileData, user.accessToken);
+    const updatedProfile = await updateProfile(profileData);
     if (updatedProfile) {
+      updateUser(updatedProfile.data)
       setProfile(updatedProfile.data);
       setIsOverlayOpen(false);
     } else {
@@ -84,7 +86,7 @@ function ProfilePage() {
             <p className="py-5 text-medium-p">No bookings yet</p>
           ) : (
             bookings.map((booking) => (
-              <BookingListDropDown key={booking.id} booking={booking} />
+              <BookingCard key={booking.id} booking={booking} />
             ))
           )}
         </div>

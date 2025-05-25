@@ -1,6 +1,6 @@
 import { ApiResponse } from "./ApiResponse";
 import { API_KEY } from "./API_KEY.mjs";
-import { Venue } from "./venuesApi";
+import getAccessToken from "../helpers/token";
 
 
 const PROFILES_BASE_URL = "https://v2.api.noroff.dev/holidaze/profiles";
@@ -20,26 +20,14 @@ export interface UserProfile {
     venuemanager?: boolean;
 };
 
-export const fetchVenuesByProfile = async (name: string): Promise<ApiResponse<Venue[]>> => {
+export const updateProfile = async (profile: UserProfile): Promise<ApiResponse<UserProfile>> => {
     try {
-        const response = await fetch(`${PROFILES_BASE_URL}/${name}/venues`);
-        if (!response.ok) {
-            throw new Error(`Error fetching venues for profile ${name}`);
-        }
-        return await response.json();
-    } catch (error) {
-        console.error(`Error fetching venues for profile ${name}:`, error);
-        throw error;
-    }
-};
-
-export const updateProfile = async (profile: UserProfile, token: string): Promise<ApiResponse<UserProfile>> => {
-    try {
+        const accessToken = getAccessToken();
         const response = await fetch(`${PROFILES_BASE_URL}/${profile.name}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${accessToken}`,
                 "X-Noroff-API-Key": API_KEY,
             },
             body: JSON.stringify(profile),

@@ -1,39 +1,10 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { API_KEY } from "../api/API_KEY.mjs";
-import getAccessToken from "../helpers/token";
 import { toast } from "react-toastify";
 import { fetchBookingsAtVenue } from "../api/bookingsApi";
 import { Booking } from "../api/bookingsApi";
 import { formatDateRange } from "../helpers/dateFormatter";
-
-interface Venue {
-  id: string;
-  name: string;
-  description: string;
-  media: { url: string; alt: string }[];
-  price: number;
-  maxGuests: number;
-  rating: number;
-  created: string;
-  updated: string;
-  meta: {
-    wifi: boolean;
-    parking: boolean;
-    breakfast: boolean;
-    pets: boolean;
-  };
-  location: {
-    address: string;
-    city: string;
-    zip: string;
-    country: string;
-    continent: string;
-  };
-  _count: {
-    bookings: number;
-  };
-}
+import { deleteVenue, fetchVenuesByProfile, Venue } from "../api/venuesApi";
 
 function ManagerVenuesView() {
   const [venues, setVenues] = useState<Venue[]>([]);
@@ -48,27 +19,13 @@ function ManagerVenuesView() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const name = user.name;
 
-  const token = getAccessToken();
-
   useEffect(() => {
     async function fetchVenues() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(
-          `https://v2.api.noroff.dev/holidaze/profiles/${name}/venues`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-              "X-Noroff-API-Key": API_KEY,
-            },
-          }
-        );
-        if (!res.ok) throw new Error("Failed to fetch venues");
-        const data = await res.json();
-        setVenues(data.data || []);
+        const result = await fetchVenuesByProfile(name)
+        setVenues(result.data);
       } catch (err: any) {
         setError(err.message || "Unknown error");
       } finally {
@@ -81,37 +38,25 @@ function ManagerVenuesView() {
   async function handleDelete(id: string) {
     if (!window.confirm("Are you sure you want to delete this venue?")) return;
     try {
-      const token = user.accessToken;
-      const res = await fetch(
-        `https://v2.api.noroff.dev/holidaze/venues/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-            "X-Noroff-API-Key": API_KEY,
-          },
-        }
-      );
-      if (!res.ok) throw new Error("Failed to delete venue");
+      await deleteVenue(id);
       setVenues((prev) => prev.filter((v) => v.id !== id));
+      toast.success("Venue deleted successfully", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (err: any) {
       alert(err.message || "Delete failed");
     }
-    toast.success("Venue deleted successfully", {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
   }
 
   async function handleBookings(id: string, venueName: string) {
     try {
-      const bookings = await fetchBookingsAtVenue(id, token);
+      const bookings = await fetchBookingsAtVenue(id);
       if (!bookings) throw new Error("No bookings found for this venue");
       setSelectedVenueBookings(bookings);
       setSelectedVenueName(venueName);
@@ -171,16 +116,16 @@ function ManagerVenuesView() {
               </span>
             </div>
             <div className="flex flex-wrap gap-2 text-xs mb-3">
-              {venue.meta.wifi && (
+              {venue.meta?.wifi && (
                 <span className="bg-neutral-50 px-2 rounded">WiFi</span>
               )}
-              {venue.meta.parking && (
+              {venue.meta?.parking && (
                 <span className="bg-neutral-50 px-2 rounded">Parking</span>
               )}
-              {venue.meta.breakfast && (
+              {venue.meta?.breakfast && (
                 <span className="bg-neutral-50 px-2 rounded">Breakfast</span>
               )}
-              {venue.meta.pets && (
+              {venue.meta?.pets && (
                 <span className="bg-neutral-50 px-2 rounded">Pets</span>
               )}
             </div>
@@ -221,14 +166,14 @@ function ManagerVenuesView() {
                   {selectedVenueBookings.map((booking) => (
                     <li key={booking.id} className="border-b pb-2">
                       <p>
-                        <h4>Dates:</h4>{" "}
+                        <strong>Dates:</strong>{" "}
                         {formatDateRange(booking.dateFrom, booking.dateTo)}
                       </p>
                       <p>
-                        <h4>Guests:</h4> {booking.guests}
+                        <strong>Guests:</strong> {booking.guests}
                       </p>
                       <p>
-                        <h4>Booked by:</h4> {booking.customer?.name} (
+                        <strong>Booked by:</strong> {booking.customer?.name} (
                         {booking.customer?.email})
                       </p>
                     </li>

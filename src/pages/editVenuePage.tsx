@@ -2,45 +2,29 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { API_KEY } from "../api/API_KEY.mjs";
 import { defaultVenueDetails } from "../helpers/venueDetails";
-import getAccessToken from "../helpers/token";
 import { toast } from "react-toastify";
+import { fetchVenueById, updateVenue, Venue } from "../api/venuesApi";
 
 function EditVenue() {
   let { id } = useParams();
-  const token = getAccessToken();
   const [venueDetails, setVenueDetails] = useState(defaultVenueDetails);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchVenueDetails = async () => {
       try {
-        const response = await fetch(
-          `https://v2.api.noroff.dev/holidaze/venues/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-              "X-Noroff-API-Key": API_KEY,
-            },
-          }
-        );
-        if (response.ok) {
-          const res = await response.json();
-          setVenueDetails(res.data);
-        } else {
-          console.error("Failed to fetch venue details");
+        if (!id) {
+          throw new Error("Venue ID is not provided");
         }
+        const response = await fetchVenueById(id);
+        setVenueDetails(response.data);
       } catch (error) {
         console.error("Error:", error);
       }
     };
 
-    if (id) {
-      fetchVenueDetails();
-    }
+    fetchVenueDetails();
   }, [id]);
 
   if (!venueDetails.id)
@@ -59,45 +43,27 @@ function EditVenue() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        `https://v2.api.noroff.dev/holidaze/venues/${venueDetails.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-            "X-Noroff-API-Key": API_KEY,
-          },
-          body: JSON.stringify(venueDetails),
-        }
-      );
-
-      
-      if (response.ok) {
-        toast.success("Venue updated successfully!", {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        navigate("/managerVenuesView");
-      } else {
-        console.error("Failed to update venue", response.statusText);
-        toast.error("Failed to update venue", {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      }
+      await updateVenue(venueDetails.id, venueDetails);
+      toast.success("Venue updated successfully!", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      navigate("/managerVenuesView");
     } catch (error) {
-      console.error("Error:", error);
+      toast.error("Failed to update venue", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
@@ -244,7 +210,7 @@ function EditVenue() {
                 type="checkbox"
                 id={metaKey}
                 name={metaKey}
-                checked={venueDetails.meta[metaKey]}
+                checked={(venueDetails as any).meta[metaKey]}
                 onChange={(e) =>
                   setVenueDetails((prevDetails) => ({
                     ...prevDetails,
@@ -252,7 +218,7 @@ function EditVenue() {
                       ...prevDetails.meta,
                       [metaKey]: e.target.checked,
                     },
-                  }))
+                  }) as Venue)
                 }
                 className="h-4 w-4 "
               />
@@ -276,7 +242,7 @@ function EditVenue() {
               setVenueDetails((prevDetails) => ({
                 ...prevDetails,
                 location: { ...prevDetails.location, address: e.target.value },
-              }))
+              }) as Venue)
             }
             className="mt-1 block w-full "
             required
@@ -291,7 +257,7 @@ function EditVenue() {
               setVenueDetails((prevDetails) => ({
                 ...prevDetails,
                 location: { ...prevDetails.location, city: e.target.value },
-              }))
+              }) as Venue)
             }
             className="mt-1 block w-full "
             required
@@ -306,7 +272,7 @@ function EditVenue() {
               setVenueDetails((prevDetails) => ({
                 ...prevDetails,
                 location: { ...prevDetails.location, zip: e.target.value },
-              }))
+              }) as Venue)
             }
             className="mt-1 block w-full "
             required
@@ -321,7 +287,7 @@ function EditVenue() {
               setVenueDetails((prevDetails) => ({
                 ...prevDetails,
                 location: { ...prevDetails.location, country: e.target.value },
-              }))
+              }) as Venue)
             }
             className="mt-1 block w-full"
             required
@@ -339,7 +305,7 @@ function EditVenue() {
                   ...prevDetails.location,
                   continent: e.target.value,
                 },
-              }))
+              }) as Venue)
             }
             className="mt-1 block w-full "
             required

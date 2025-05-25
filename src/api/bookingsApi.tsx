@@ -1,14 +1,10 @@
 import { API_KEY } from "./API_KEY.mjs";
 import { ApiResponse } from "./ApiResponse";
 import { Venue } from "./venuesApi";
-import getUserData from "../helpers/getUserData";
+import getAccessToken from "../helpers/token";
 
 const BOOKINGS_BY_PROFILE_BASE_URL =
   "https://v2.api.noroff.dev/holidaze/profiles/{$user}/bookings?_venue=true";
-const profileBookings = BOOKINGS_BY_PROFILE_BASE_URL.replace(
-  "{$user}",
-  getUserData().name
-);
 
 const BOOKING_BASE_URL = "https://v2.api.noroff.dev/holidaze/bookings";
 
@@ -34,10 +30,11 @@ export interface Booking {
 }
 
 export async function fetchBookingsByProfile(
-  user: string,
-  accessToken: string
+  name: string,
 ): Promise<ApiResponse<Booking[]> | null> {
-  const response = await fetch(`${profileBookings}`, {
+  const accessToken = getAccessToken();
+  const url = BOOKINGS_BY_PROFILE_BASE_URL.replace("{$user}", name);
+  const response = await fetch(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -67,8 +64,8 @@ export async function fetchBookingsByProfile(
 
 export const fetchBookingsAtVenue = async (
   id: string,
-  accessToken: string
 ): Promise<Booking[] | null> => {
+  const accessToken = getAccessToken();
   const response = await fetch(`${VENUE_BOOKINGS_URL}${id}?_bookings=true`, {
     method: "GET",
     headers: {
@@ -88,9 +85,9 @@ export const fetchBookingsAtVenue = async (
 };
 
 export async function createBooking(
-  accessToken: string,
   bookingData: Booking
 ): Promise<ApiResponse<Booking> | null> {
+  const accessToken = getAccessToken();
   const response = await fetch(`${BOOKING_BASE_URL}`, {
     method: "POST",
     headers: {
@@ -110,3 +107,22 @@ export async function createBooking(
   const data = await response.json();
   return data as ApiResponse<Booking>;
 }
+
+export const deleteBooking = async (id: string): Promise<void> => {
+  try {
+      const accessToken = getAccessToken();
+      const response = await fetch(`${BOOKING_BASE_URL}/${id}`, {
+          method: "DELETE",
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "X-Noroff-API-Key": API_KEY,
+          },
+      });
+      if (!response.ok) {
+          throw new Error(`Error deleting venue with ID ${id}`);
+      }
+  } catch (error) {
+      console.error(`Error deleting venue with ID ${id}:`, error);
+      throw error;
+  }
+};

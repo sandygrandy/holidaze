@@ -40,7 +40,8 @@ function HomePage() {
           <div className="flex flex-row gap-4 mt-8">
             <button className="primary-button-light" 
             onClick={() => location.href = `/venues`}>View venues</button>
-            <button className="secondary-button-light">Contact us</button>
+            <button className="secondary-button-light"
+            onClick={() => location.href = `/contact`}>Contact us</button>
           </div>
         </div>
       </section>
@@ -97,7 +98,9 @@ function HomePage() {
           seamless access to beautifully appointed spaces where love, style, and
           stay meet effortlessly.
         </p>
-        <button className="secondary-button-dark">Read more</button>
+        <button 
+        className="secondary-button-dark"
+        onClick={() => location.href="/about"}>Read more</button>
       </section>
 
       <section>

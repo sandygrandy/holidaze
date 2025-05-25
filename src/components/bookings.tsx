@@ -2,13 +2,26 @@ import React from "react";
 import { useState } from "react";
 import { Booking } from "../api/bookingsApi";
 import { formatDateRange, formatDate } from "../helpers/dateFormatter";
+import { deleteBooking } from "../api/bookingsApi";
 
-type BookingListDropDownProps = {
+
+type BookingCardProps = {
   booking: Booking;
 };
 
-function BookingListDropDown({ booking }: BookingListDropDownProps) {
+function BookingCard({ booking }: BookingCardProps) {
   const [open, setOpen] = useState(false);
+
+  const handleDelete = (booking: Booking) => async () => {
+    if (window.confirm("Are you sure you want to delete this booking?")) {
+      try {
+        await deleteBooking(booking.id);
+        window.location.reload(); // Reload the page to reflect changes
+      } catch (error) {
+        console.error("Error deleting booking:", error);
+      }
+    }
+  };
 
   return (
     <div className="w-1/2 m-auto mb-2 rounded shadow-md">
@@ -36,7 +49,8 @@ function BookingListDropDown({ booking }: BookingListDropDownProps) {
           </div>
           <div className="flex flex-col gap-2">
             <button className="secondary-button-dark">Edit Booking</button>
-            <button className="primary-button-dark">Delete Booking</button>
+            <button onClick={handleDelete(booking)}
+            className="primary-button-dark">Delete Booking</button>
           </div>
         </div>
       )}
@@ -44,4 +58,4 @@ function BookingListDropDown({ booking }: BookingListDropDownProps) {
   );
 }
 
-export default BookingListDropDown;
+export default BookingCard;

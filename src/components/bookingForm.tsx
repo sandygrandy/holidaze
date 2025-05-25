@@ -5,7 +5,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 interface BookingFormProps {
-  accessToken: string;
   venueId: string | undefined;
   onBookingCreated: (booking: Booking) => void;
   existingBookings: Booking[] | null;
@@ -14,7 +13,6 @@ interface BookingFormProps {
 
 
 const BookingForm: React.FC<BookingFormProps> = ({
-  accessToken,
   venueId,
   onBookingCreated,
   existingBookings
@@ -48,7 +46,6 @@ const BookingForm: React.FC<BookingFormProps> = ({
 
     try {
       const response = await createBooking(
-        accessToken,
         bookingData as unknown as Booking
       );
       if (response) {
@@ -76,6 +73,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
         placeholderText=" Date from:"
         showIcon
         onChange={(date: Date | null) => setDateFrom(date)}
+        minDate={new Date()}
         excludeDateIntervals={existingBookings?.map((booking) => {
             return {
               start: new Date(booking.dateFrom),
@@ -88,6 +86,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
         placeholderText=" Date To:"
         showIcon
         onChange={(date: Date | null) => setDateTo(date)}
+        minDate={dateFrom ? new Date(dateFrom.getTime() + 24 * 60 * 60 * 1000) : new Date()}
         excludeDateIntervals={existingBookings?.map((booking) => {
           return {
             start: new Date(booking.dateFrom),

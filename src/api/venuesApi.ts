@@ -1,9 +1,7 @@
+import getAccessToken from "../helpers/token";
 import { API_KEY } from "./API_KEY.mjs";
 import { ApiResponse } from "./ApiResponse";
 import { Booking } from "./bookingsApi";
-import getUserData from "../helpers/getUserData";
-
-const accessToken = getUserData().accessToken || "";
 
 const PROFILES_BASE_URL = "https://v2.api.noroff.dev/holidaze/profiles";
 const VENUES_BASE_URL = "https://v2.api.noroff.dev/holidaze/venues";
@@ -17,6 +15,8 @@ export interface Venue {
         address: string;
         city: string;
         country: string;
+        continent: string;
+        zip?: string;
     };
     price?: number;
     maxGuests?: number;
@@ -32,11 +32,21 @@ export interface Venue {
         breakfast: boolean;
         pets: boolean;
     };
+    _count?: {
+        bookings: number;
+      };
 }
 
-export const fetchVenues = async (): Promise<ApiResponse<Venue[]>> => {
+export const fetchVenues = async (includeOwner?: boolean, includeBookings?:boolean): Promise<ApiResponse<Venue[]>> => {
     try {
-        const response = await fetch(`${VENUES_BASE_URL}?sort=created&sortOrder=desc&_owner=true&_bookings=true`);
+        let url = `${VENUES_BASE_URL}?sort=created&sortOrder=desc`;
+        if (includeOwner) {
+            url += "&_owner=true";
+        }
+        if (includeBookings) {
+            url += "&_bookings=true";
+        }
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error("Error fetching venues");
         }
@@ -49,6 +59,7 @@ export const fetchVenues = async (): Promise<ApiResponse<Venue[]>> => {
 
 export const fetchVenuesByProfile = async (name: string): Promise<ApiResponse<Venue[]>> => {
     try {
+        const accessToken = getAccessToken();
         const response = await fetch(`${PROFILES_BASE_URL}/${name}/venues`, {
             method: "GET",
             headers: {
@@ -70,7 +81,13 @@ export const fetchVenuesByProfile = async (name: string): Promise<ApiResponse<Ve
 export const fetchVenueById = async (id: string, includeBookings?: boolean): Promise<ApiResponse<Venue>> => {
     try {
         const url = includeBookings ? `${VENUES_BASE_URL}/${id}?_bookings=true` : `${VENUES_BASE_URL}/${id}`;
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Noroff-API-Key": API_KEY,
+            },
+        });
         if (!response.ok) {
             throw new Error(`Error fetching venue with ID ${id}`);
         }
@@ -81,13 +98,15 @@ export const fetchVenueById = async (id: string, includeBookings?: boolean): Pro
     }
 };
 
-export const createVenue = async (venue: Partial<Venue>, accessToken: string): Promise<ApiResponse<Venue>> => {
+export const createVenue = async (venue: Partial<Venue>): Promise<ApiResponse<Venue>> => {
     try {
+        const accessToken = getAccessToken();
         const response = await fetch(VENUES_BASE_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${accessToken}`,
+                "X-Noroff-API-Key": API_KEY,
             },
             body: JSON.stringify(venue),
         });
@@ -101,13 +120,15 @@ export const createVenue = async (venue: Partial<Venue>, accessToken: string): P
     }
 };
 
-export const updateVenue = async (id: string, venue: Partial<Venue>, token: string): Promise<ApiResponse<Venue>> => {
+export const updateVenue = async (id: string, venue: Partial<Venue>): Promise<ApiResponse<Venue>> => {
     try {
+        const accessToken = getAccessToken();
         const response = await fetch(`${VENUES_BASE_URL}/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${accessToken}`,
+                "X-Noroff-API-Key": API_KEY,
             },
             body: JSON.stringify(venue),
         });
@@ -121,12 +142,14 @@ export const updateVenue = async (id: string, venue: Partial<Venue>, token: stri
     }
 };
 
-export const deleteVenue = async (id: string, token: string): Promise<void> => {
+export const deleteVenue = async (id: string): Promise<void> => {
     try {
+        const accessToken = getAccessToken();
         const response = await fetch(`${VENUES_BASE_URL}/${id}`, {
             method: "DELETE",
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${accessToken}`,
+                "X-Noroff-API-Key": API_KEY,
             },
         });
         if (!response.ok) {
