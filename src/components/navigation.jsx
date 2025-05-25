@@ -28,56 +28,62 @@ function Navigation() {
   };
 
   return (
-    <div className="bg-greige w-full h-nav-height flex items-center px-10 md:px-wrapper flex-row justify-between">
-      <div>
-        <img 
-        className="w-32 md:w-56"
-        src="../src/logo/Veloura.png" 
-        alt="Veloura Logo"></img>
-      </div>
-      <div>
-        <ul className="flex items-center justify-center flex-row">
-          <li className="m-6 text-woody-wine text-medium-p">
-            <Link to="/">Home</Link>
-          </li>
-          <li className="m-6 text-woody-wine text-medium-p">
-            <Link to="/venues">Venues</Link>
-          </li>
-
-          {!isLoggedIn && (
+    <>
+      <div className="bg-greige w-full h-nav-height flex items-center px-10 md:px-wrapper flex-row justify-between">
+        <div>
+          <img 
+          onClick={() => window.location.href = "/"}
+          className="w-32 md:w-56 cursor-pointer"
+          src="../src/logo/Veloura.png" 
+          alt="Veloura Logo"></img>
+        </div>
+        <div className="normal-menu">
+          <ul className="flex items-center justify-center flex-row">
             <li className="m-6 text-woody-wine text-medium-p">
-              <Link to="/login">Login</Link>
+              <Link to="/">Home</Link>
             </li>
-          )}
-
-          {isManager && (
-            <li className="m-6 text-woody-wine text-medium-p relative group">
-            <Link to="#">Dashboard</Link>
-            <ul className="absolute hidden group-hover:flex flex-col bg-white shadow-md rounded-md w-40 z-50">
-              <li className="px-4 py-2 hover:bg-gray-100 rounded-md">
-                <Link to="/managerVenuesView">Manage venues</Link>
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-100 rounded-md">
-                <Link to="/createVenue">New venue</Link>
-              </li>
-            </ul>
-          </li>
-          )}
-
-          {isLoggedIn && (
             <li className="m-6 text-woody-wine text-medium-p">
-              <Link to="/profile">Profile</Link>
+              <Link to="/venues">Venues</Link>
             </li>
-          )}
 
-          {isLoggedIn && (
-            <li className="m-6 text-woody-wine text-medium-p logout-btn">
-              <button onClick={handleLogout}>Log out</button>
+            {!isLoggedIn && (
+              <li className="m-6 text-woody-wine text-medium-p">
+                <Link to="/login">Login</Link>
+              </li>
+            )}
+
+            {isManager && (
+              <li className="m-6 text-woody-wine text-medium-p relative group">
+              <Link to="#">Dashboard</Link>
+              <ul className="absolute hidden group-hover:flex flex-col bg-white shadow-md rounded-md w-40 z-50">
+                <li className="px-4 py-2 hover:bg-gray-100 rounded-md">
+                  <Link to="/managerVenuesView">Manage venues</Link>
+                </li>
+                <li className="px-4 py-2 hover:bg-gray-100 rounded-md">
+                  <Link to="/createVenue">New venue</Link>
+                </li>
+              </ul>
             </li>
-          )}
-        </ul>
+            )}
+
+            {isLoggedIn && (
+              <li className="m-6 text-woody-wine text-medium-p">
+                <Link to="/profile">Profile</Link>
+              </li>
+            )}
+
+            {isLoggedIn && (
+              <li className="m-6 text-woody-wine text-medium-p logout-btn">
+                <button onClick={handleLogout}>Log out</button>
+              </li>
+            )}
+          </ul>
+        </div>
+        <div className="hamburger-menu hidden">
+          
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

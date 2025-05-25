@@ -147,13 +147,21 @@ h5 {
 }
 
 .secondary-button-dark {
-    font-family: Auralyess;
+    font-family: PoiretOne;
     font-size: 22px;
     color: var(--color-woody-wine);
     padding: 3px 18px;
     border: 2px solid var(--color-woody-wine);
     border-radius: 5px;
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .primary-button-light, .primary-button-dark, .secondary-button-light, .secondary-button-dark {
+        font-size: 18px;
+        padding: 2px 12px;
+        font-weight: 600;
+    }
 }
 
 .secondary-button-dark:hover {

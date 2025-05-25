@@ -48,14 +48,14 @@ function ProfilePage() {
   if (!user) return <p>Loading...</p>;
 
   return (
-    <div className="profile-page text-woody-wine px-wrapper">
+    <div className="profile-page text-woody-wine px-5 lg:px-wrapper">
       <div>
-        <h1 className="text-woody-wine text-4xl font-bold text-center my-20">
+        <h2 className="text-woody-wine text-4xl font-bold text-center my-20">
           Welcome {profile.name}!
-        </h1>
+        </h2>
       </div>
-      <div className="flex flex-row justify-center my-20">
-        <div className="flex flex-row gap-16">
+      <div className="flex flex-col items-center md:items-start md:flex-row justify-center my-15">
+        <div className="flex flex-col items-center md:items-start md:flex-row gap-4 md:gap-8">
           <div>
             <img
               src={
@@ -67,7 +67,7 @@ function ProfilePage() {
             />
           </div>
           <div className="m-auto">
-            <h2 className="py-2">{profile.name}</h2>
+            <h3 className="py-2">{profile.name}</h3>
             <p className="">{profile.bio || "No description yet"}</p>
           </div>
           <div>

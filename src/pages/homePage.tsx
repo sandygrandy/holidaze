@@ -6,7 +6,8 @@ function HomePage() {
   const [carouselImages, setCarouselImages] = useState<CarouselImage[]>([]);
 
   useEffect(() => {
-    fetchVenues().then((response) => {
+    // Added a search here to filter out all the ugly test venues people made
+    fetchVenues({search: "sea"}).then((response) => {
       const images = response.data
         .filter((venue) => venue.media.length > 0)
         .filter((_, index) => index <= 5).map((venue) => (

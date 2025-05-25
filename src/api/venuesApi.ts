@@ -37,14 +37,31 @@ export interface Venue {
       };
 }
 
-export const fetchVenues = async (includeOwner?: boolean, includeBookings?:boolean): Promise<ApiResponse<Venue[]>> => {
+export interface VenuesRequestParams {
+    limit?: number;
+    page?: number;
+    includeOwner?: boolean;
+    includeBookings?:boolean;
+    search?: string;
+}
+
+export const fetchVenues = async (params?: VenuesRequestParams): Promise<ApiResponse<Venue[]>> => {
     try {
-        let url = `${VENUES_BASE_URL}?sort=created&sortOrder=desc`;
-        if (includeOwner) {
+        let url = params?.search
+            ? `${VENUES_BASE_URL}/search?q=${encodeURIComponent(params.search)}&sort=created&sortOrder=desc`
+            : `${VENUES_BASE_URL}?sort=created&sortOrder=desc`;
+
+        if (params?.includeOwner) {
             url += "&_owner=true";
         }
-        if (includeBookings) {
+        if (params?.includeBookings) {
             url += "&_bookings=true";
+        }
+        if (params?.limit) {
+            url += `&limit=${params.limit}`;
+        }
+        if (params?.page) {
+            url += `&page=${params.page}`;
         }
         const response = await fetch(url);
         if (!response.ok) {

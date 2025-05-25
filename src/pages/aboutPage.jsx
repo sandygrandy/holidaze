@@ -2,47 +2,27 @@ import React from "react";
 
 const AboutPage = () => {
     return (
-        <div className="text-center p-10 bg-white px-10 md:px-60">
-            <div className="mb-15 bg-[url(../src/images/background-flowers.png)] bg-cover bg-center p-10 rounded-lg shadow-lg text-white">
-            <h1>About Veloura</h1>
-            <p>
-                Welcome to Veloura, your trusted platform for discovering and booking
-                the perfect wedding venues. We understand that your wedding day is one
-                of the most important days of your life, and we are here to make the
-                planning process as seamless and stress-free as possible.
-            </p>
+        <div>
+            <section className="bg-[url('../src/images/background-flowers.png')] bg-cover bg-center h-64 flex items-center justify-center text-white">
+                <h1>About Veloura</h1>
+            </section>
+
+            <div className="flex flex-col items-center py-10 px-5 lg:px-wrapper bg-white text-woody-wine gap-10">
+                <h3>Our Story</h3>
+                <p>Veloura was born from a desire to elevate the way couples discover and experience their wedding venue. In a world of endless options, we 
+                    offer something different: curated calm, timeless beauty, and intentional simplicity.
+                We bring together luxurious spaces that don’t just host weddings — they hold memories. Every venue we feature is handpicked for its design, 
+                atmosphere, and ability to effortlessly host both the celebration and the stay.</p>
+
+                <h3>Our Philosophy</h3>
+                <p>We believe in understated elegance, seamless experiences, and the magic of well-chosen details. Veloura is for those who value quality over quantity, 
+                    and moments that feel as good as they look.</p>
+
+                <h3>For the modern romantic</h3>
+                <p>Whether you're planning an intimate elopement or a full weekend celebration, Veloura is your starting point. Our platform brings together the world’s 
+                    most elegant wedding stays, all in one thoughtfully designed space.</p>
             </div>
-            <h2>Our Mission</h2>
-            <p className="mb-20">
-                At Veloura, our mission is to connect couples with stunning venues that
-                match their vision and style. Whether you're dreaming of a grand
-                ballroom, a rustic barn, or a scenic outdoor location, we have a wide
-                range of options to suit every taste and budget.
-            </p>
-            <h2>Why Choose Veloura?</h2>
-            <ul className="mb-20">
-                <li>
-                    <strong>Extensive Selection:</strong> Explore a curated list of
-                    wedding venues from around the world.
-                </li>
-                <li>
-                    <strong>Easy Booking:</strong> Our user-friendly platform makes it
-                    simple to find and book your dream venue.
-                </li>
-                <li>
-                    <strong>Trusted Reviews:</strong> Read reviews from other couples to
-                    make informed decisions.
-                </li>
-                <li>
-                    <strong>Expert Support:</strong> Our team is here to assist you every
-                    step of the way.
-                </li>
-            </ul>
-            <h2>Start Your Journey</h2>
-            <p className="mb-20">
-                Let Veloura help you create unforgettable memories. Start exploring our
-                venues today and take the first step toward your dream wedding.
-            </p>
+            
         </div>
     );
 };

@@ -106,13 +106,6 @@ const Carousel: FunctionComponent<CarouselProps> = ({ images, onItemClicked }) =
                             {rotatedImages.map((img, index) => (
                                 <div
                                     className='flex-none p-4 overflow-hidden'
-                                    // className={`flex-none p-4 overflow-hidden ${
-                                    //     visibleItems === 1
-                                    //         ? 'w-full'
-                                    //         : visibleItems === 2
-                                    //         ? 'w-1/2'
-                                    //         : 'w-1/3'
-                                    // }`}
                                     style={{ width: `${100 / rotatedImages.length}%` }}
                                     key={index}
                                 >

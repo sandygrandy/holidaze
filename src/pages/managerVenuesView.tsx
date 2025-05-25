@@ -79,7 +79,7 @@ function ManagerVenuesView() {
 
   return (
     <div className="flex flex-col items-center min-h-screen">
-      <h1 className="text-woody-wine text-4xl font-bold my-8">Your Venues</h1>
+      <h2 className="text-woody-wine text-4xl font-bold my-8">Your Venues</h2>
       {loading && <p>Loading venues...</p>}
       {error && <p className="text-red-500">{error}</p>}
       {!loading && venues.length === 0 && (

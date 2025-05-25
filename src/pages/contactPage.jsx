@@ -2,12 +2,12 @@ import React from 'react';
 
 const ContactPage = () => {
     return (
-        <div className="flex flex-col items-center py-10 px-wrapper bg-white">
-            <h1 className="text-2xl font-bold mb-4">Contact Us</h1>
+        <div className="flex flex-col items-center py-10 px-5 lg:px-wrapper bg-white text-woody-wine">
+            <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
             <p className="text-center mb-6">We'd love to hear from you! Reach out to us with any questions or inquiries.</p>
             <form className="w-full max-w-md mx-auto text-left">
                 <div className="mb-4">
-                    <label htmlFor="name" className="block mb-2 font-medium">Name</label>
+                    <label htmlFor="name" className="block mb-2 font-bold">Name</label>
                     <input
                         type="text"
                         id="name"
@@ -17,7 +17,7 @@ const ContactPage = () => {
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="email" className="block mb-2 font-medium">Email</label>
+                    <label htmlFor="email" className="block mb-2 font-bold">Email</label>
                     <input
                         type="email"
                         id="email"
@@ -27,7 +27,7 @@ const ContactPage = () => {
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="message" className="block mb-2 font-medium">Message</label>
+                    <label htmlFor="message" className="block mb-2 font-bold">Message</label>
                     <textarea
                         id="message"
                         name="message"
