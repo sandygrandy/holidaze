@@ -1,8 +1,9 @@
 function Dashboard() {
+
+
   return (
     <div>
-      <h1>Dashboard</h1>
-      <p>Welcome to the dashboard!</p>
+      <h2 className="text-woody-wine text-4xl font-bold text-center my-20">Welcome to your dashboard</h2>
     </div>
   );
 }
