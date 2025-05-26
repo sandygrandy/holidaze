@@ -31,6 +31,8 @@ npm install
 # or
 yarn install
 
+### Development
+
 npm run dev
 # or
 yarn dev
