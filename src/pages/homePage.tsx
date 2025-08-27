@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchVenues } from "../api/venuesApi";
+import { Link } from "react-router-dom";
 import Carousel, { CarouselImage } from "../components/carousel";
 
 function HomePage() {
@@ -9,20 +10,20 @@ function HomePage() {
 
   useEffect(() => {
     // Added a search here to filter out all the ugly test venues people made
-    fetchVenues({search: "sea", limit: countOfVenueHighlightsToShow}).then((response) => {
-      const images = response.data
-        .filter((venue) => venue.media.length > 0)
-        .map((venue) => (
-        {
-          url: venue.media[0].url,
-          title: venue.name,
-          props: {
-            id: venue.id
-          }
-        }
-      ));
-      setCarouselImages(images);
-    });
+    fetchVenues({ search: "sea", limit: countOfVenueHighlightsToShow }).then(
+      (response) => {
+        const images = response.data
+          .filter((venue) => venue.media.length > 0)
+          .map((venue) => ({
+            url: venue.media[0].url,
+            title: venue.name,
+            props: {
+              id: venue.id,
+            },
+          }));
+        setCarouselImages(images);
+      }
+    );
   }, []);
 
   function handleImageClick(item: CarouselImage) {
@@ -41,20 +42,22 @@ function HomePage() {
             A handpicked collection of exquisite wedding venues
           </p>
           <div className="flex flex-row gap-4 mt-8">
-            <button className="primary-button-light" 
-            onClick={() => location.href = `/venues`}>View venues</button>
-            <button className="secondary-button-light"
-            onClick={() => location.href = `/contact`}>Contact us</button>
+            <Link to="/venues" className="primary-button-light">
+              Venues
+            </Link>
+            <button
+              className="secondary-button-light"
+              onClick={() => (location.href = `/contact`)}
+            >
+              Contact us
+            </button>
           </div>
         </div>
       </section>
 
       <section className="h-fit bg-white px-5 md:px-wrapper flex flex-col p-10">
         <h2 className="text-center">Highlights</h2>
-         <Carousel
-          images={carouselImages}
-          onItemClicked={handleImageClick}
-        />
+        <Carousel images={carouselImages} onItemClicked={handleImageClick} />
       </section>
 
       <section className="px-10 md:px-wrapper flex flex-col my-5 sm:my-15 gap-5 sm-gap-10 lg:gap-20 text-woody-wine lg:flex-row md:items-center">
@@ -80,11 +83,15 @@ function HomePage() {
             <li className="text-small-p md:text-medium-p list-disc">
               Trusted supplier lists (catering, florists, photographers){" "}
             </li>
-            <li className="text-small-p md:text-medium-p list-disc">Planning checklists</li>
+            <li className="text-small-p md:text-medium-p list-disc">
+              Planning checklists
+            </li>
             <li className="text-small-p md:text-medium-p list-disc">
               Guest accommodation guidance
             </li>
-            <li className="text-small-p md:text-medium-p list-disc">Style and design tips</li>
+            <li className="text-small-p md:text-medium-p list-disc">
+              Style and design tips
+            </li>
           </ul>
           <div>
             <button className="primary-button-light mt-5">Read more</button>
@@ -101,9 +108,12 @@ function HomePage() {
           seamless access to beautifully appointed spaces where love, style, and
           stay meet effortlessly.
         </p>
-        <button 
-        className="secondary-button-dark"
-        onClick={() => location.href="/about"}>Read more</button>
+        <button
+          className="secondary-button-dark"
+          onClick={() => (location.href = "/about")}
+        >
+          Read more
+        </button>
       </section>
 
       <section>
