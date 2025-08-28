@@ -6,7 +6,7 @@ Built from scratch, from idea to a brand, design to a responsive web application
 
 ## API disclaimer
 
-- This is a public Noroff API with data made from students. I take no responsibility of what other students have posted if it may seem strange :)
+- This is a public Noroff API with data made from students. I take no responsibility of what other students have posted if it seems strange or inappropriate :)
 - [Noroff API](https://docs.noroff.dev/) - Link to API docs
 
 ## 🚀 Tech Stack
