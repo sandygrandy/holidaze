@@ -4,6 +4,11 @@ Exam project 2025.
 Veloura is a wedding venue booking site where users can book venues for their wedding, and an admin-facing side of the website where users can register and manage venues and bookings at those venues.
 Built from scratch, from idea to a brand, design to a responsive web application with real data fetched from an existing API.
 
+## API disclaimer
+
+- This is a public Noroff API with data made from students. I take no responsibility of what other students have posted if it may seem strange :)
+- [Noroff API](https://docs.noroff.dev/) - Link to API docs
+
 ## 🚀 Tech Stack
 
 - [Vite](https://vitejs.dev/) – Lightning-fast frontend tooling
