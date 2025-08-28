@@ -2,6 +2,7 @@
 
 Exam project 2025.
 Veloura is a wedding venue booking site where users can book venues for their wedding, and an admin-facing side of the website where users can register and manage venues and bookings at those venues.
+Built from scratch, from idea to a brand, design to a responsive web application with real data fetched from an existing API.
 
 ## 🚀 Tech Stack
 
@@ -9,10 +10,13 @@ Veloura is a wedding venue booking site where users can book venues for their we
 - [React](https://reactjs.org/) – Component-based UI library
 - [TypeScript](https://www.typescriptlang.org/) – Typed JavaScript for scalable apps
 - [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) – Custom styling with a clean and responsive approach
+- [TailwindCSS](https://tailwindcss.com/) - Utility-first CSS framework directly in markup
+
+- [Figma](https://www.figma.com/design/xnQAUz0ymh93s6hRWZQB0f/Exam-project?node-id=0-1&t=rEIephno3HBFYbn0-1) - Static prototype built in Figma.
 
 ## 💡 Features
 - Users and visitors can view listed venues.
-- Users can register a user profile, update their profile picture and decide if they want to be a venue manager.
+- Users can register a user profile, update their profile picture, and decide if they want to be a venue manager.
 - Users can select dates to book a venue.
 - Managers can post, update, and delete venues.
 - Managers can view and manage bookings made on each venue by the users.
@@ -25,7 +29,11 @@ Veloura is a wedding venue booking site where users can book venues for their we
 ## 🧠 Learnings
 This project helped reinforce concepts such as:
 
+RESTful api fetching
+
 Building reusable components in React
+
+React router
 
 State management
 
