@@ -1,4 +1,4 @@
-# Holidaze
+# Veloura
 
 Exam project 2025.
 Veloura is a wedding venue booking site where users can book venues for their wedding, and an admin-facing side of the website where users can register and manage venues and bookings at those venues.
